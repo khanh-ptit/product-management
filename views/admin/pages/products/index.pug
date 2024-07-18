@@ -1,0 +1,43 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1 Danh sách sản phẩm
+
+    table.table.table-hover.table-sm
+        thead
+            tr
+                th STT
+                th Hình ảnh
+                th Tiêu đề
+                th Giá
+                th Trạng thái
+                th Hành động
+        tbody
+            tr
+                td 1
+                td
+                    img(src="https://bizweb.dktcdn.net/100/463/685/products/anh-dta-a2656b34-3bdf-43dd-91d9-52bfe6205d8f-05f9aaac-39b6-4e0a-9430-dcdf846236b1.png?v=1664679397747" 
+                        alt="Sản phẩm 1" 
+                        width="100px" 
+                        height="auto")
+                td Sản phẩm 1
+                td 100$
+                td
+                    a(href="#" class="badge badge-success") Hoạt động
+                td
+                    button.btn.btn-warning.btn-sm Sửa
+                    button.btn.btn-danger.btn-sm.ml-1 Xóa
+            tr
+                td 2
+                td
+                    img(src="https://achaumobile.com/wp-content/uploads/2022/03/iPhone-X-2.jpg.webp" 
+                        alt="Sản phẩm 2" 
+                        width="100px" 
+                        height="auto")
+                td Sản phẩm 2
+                td 150$
+                td
+                    a(href="#" class="badge badge-danger") Dừng hoạt động
+                td
+                    button.btn.btn-warning.btn-sm Sửa
+                    button.btn.btn-danger.btn-sm.ml-1 Xóa
