@@ -20,3 +20,20 @@ if (buttonsStatus.length > 0) {
         })
     })
 }
+
+// Form Search
+const formSearch = document.querySelector("#form-search")
+let url = new URL(window.location.href)
+if (formSearch) {
+    formSearch.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const keyword = e.target.elements.keyword.value
+        console.log(keyword)
+        if (keyword) {
+            url.searchParams.set("keyword", keyword)
+        } else {
+            url.searchParams.delete("keyword")
+        }
+        window.location.href = url.href
+    }) 
+} 
