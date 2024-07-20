@@ -37,3 +37,25 @@ if (formSearch) {
         window.location.href = url.href
     }) 
 } 
+
+// Pagination
+const buttonsPagination = document.querySelectorAll("[button-pagination]")
+// console.log(buttonsPagination)
+if (buttonsPagination.length > 0) {
+    let url = new URL(window.location.href)
+    console.log(url.href)
+    buttonsPagination.forEach(button => {
+        button.addEventListener("click", () => {
+            const page = button.getAttribute("button-pagination")
+            console.log(page)
+            if (page) {
+                url.searchParams.set("page", page)
+            } else {
+                url.searchParams.delete("page")
+            }
+            window.location.href = url.href
+        })
+    })
+    
+}
+// End pagination
