@@ -49,3 +49,8 @@
     border-bottom: 1px solid #515151;
 }
 /* End sider */
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+}
