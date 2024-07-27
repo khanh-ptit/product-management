@@ -27,8 +27,8 @@ module.exports.index = async (req, res) => {
     //     find.title = regex
     // }
     const objectSearch = searchHelper(req.query)
-    console.log(objectSearch)
-    
+    // console.log(objectSearch)
+
     if (objectSearch.regex) {
         find.title = objectSearch.regex
     }
@@ -65,13 +65,38 @@ module.exports.index = async (req, res) => {
     })
 }
 
-    //[GET] /admin/products/change-status/:status/:id
+//[PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     console.log(req.params) // { status: 'active', id: '1' }
     const status = req.params.status
     const id = req.params.id
 
-    await Product.updateOne({ _id: id }, {status: status})
-    
+    await Product.updateOne({
+        _id: id
+    }, {
+        status: status
+    })
+
+    res.redirect("back")
+}
+
+//[PATCH] /admin/products/change-multi
+module.exports.changeMulti = async (req, res) => {
+    // console.log(req)
+    // console.log(req.body) // { status: 'active', id: '1' }
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+
+    if (type === "active" || type === "inactive") {
+        await Product.updateMany({
+            _id: {
+                $in: ids
+            }
+        }, {
+            $set: {
+                status: type
+            }
+        });
+    }
     res.redirect("back")
 }

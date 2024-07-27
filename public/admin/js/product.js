@@ -15,7 +15,7 @@ if (buttonChangeStatus.length > 0) {
 
             const action = path + `/${changeStatus}/${id}?_method=PATCH`
             formChangeStatus.action = action
-
+            console.log(action)
             formChangeStatus.submit()
         })
     })

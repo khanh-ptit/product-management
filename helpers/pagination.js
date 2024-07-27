@@ -3,11 +3,11 @@ module.exports = (objectPagination, query, countProducts) => {
         objectPagination.currentPage = parseInt(query.page)
     }
 
-    console.log(objectPagination.currentPage)
+    // console.log(objectPagination.currentPage)
     objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems
 
     // console.log(countProducts)
-    const totalPages = Math.ceil(countProducts/objectPagination.limitItems)
+    const totalPages = Math.ceil(countProducts / objectPagination.limitItems)
     // console.log(totalPages)
     objectPagination.totalPages = totalPages
     // End pagination
