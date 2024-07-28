@@ -5,10 +5,14 @@ const controller = require("../../controllers/admin/product.controller")
 
 router.get('/', controller.index)
 
+router.get('/deleted-products', controller.deleteProducts)
+
 router.patch('/change-status/:status/:id', controller.changeStatus)
 
 router.patch('/change-multi', controller.changeMulti)
 
 router.delete('/delete/:id', controller.deleteItem)
+
+router.patch('/restore/:id', controller.restoreItem)
 
 module.exports = router

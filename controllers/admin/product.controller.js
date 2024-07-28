@@ -114,3 +114,48 @@ module.exports.deleteItem = async (req, res) => {
 
     res.redirect("back")
 }
+
+module.exports.deleteProducts = async (req, res) => {
+    const filterStatus = filterStatusHelper(req.query)
+    // console.log(filterStatus)
+
+    let find = {
+        deleted: true,
+        // title: "iPhone 9"
+    }
+    if (req.query.status) {
+        find.status = req.query.status
+    }
+    const objectSearch = searchHelper(req.query)
+    // console.log(objectSearch)
+
+    if (objectSearch.regex) {
+        find.title = objectSearch.regex
+    }
+
+    // Pagination
+    // const objectPagination = paginationHelper(req.query, Product, find)
+    const countProducts = await Product.countDocuments(find)
+    let objectPagination = paginationHelper({
+        currentPage: 1,
+        limitItems: 4
+    }, req.query, countProducts)
+    // const deletedProducts = await Product.find({deleted: true})
+    const deletedProducts = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip)
+
+    res.render("admin/pages/products/deleted-products.pug", {
+        products: deletedProducts,
+        pageTitle: "Trang sản phẩm đã xóa",
+        filterStatus: filterStatus,
+        keyword: objectSearch.keyword,
+        pagination: objectPagination
+    })
+}
+
+// [PATCH] /admin/products/restore/:id
+module.exports.restoreItem = async (req, res) => {
+    // const id = req.params.id
+    console.log(req.params)
+    await Product.updateOne({_id: req.params.id}, {deleted: false})
+    res.redirect("back")
+}
