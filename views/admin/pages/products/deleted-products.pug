@@ -80,6 +80,15 @@ block main
                                         button-restore
                                         data-id=item.id
                                     ) Khôi phục
+                        
+    +pagination(pagination)
+
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/products/change-status`
+    )
     
     form(
         action=""
@@ -88,4 +97,5 @@ block main
         data-path=`${prefixAdmin}/products/restore`
     )
     
+    script(src="/admin/js/product.js") 
     script(src="/admin/js/product-restore.js") 
