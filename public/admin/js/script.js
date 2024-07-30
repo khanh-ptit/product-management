@@ -112,7 +112,7 @@ if (formChangeMulti) {
             if (!confirmDelete) {
                 return
             }
-        }  
+        }
 
         if (inputsChecked.length > 0) {
             let ids = []
@@ -120,7 +120,14 @@ if (formChangeMulti) {
             let stringIDs = ''
             inputsChecked.forEach(input => {
                 const id = input.getAttribute("value")
-                ids.push(id)
+                if (typeChange == "change-position") {
+                    const pos = input.closest("tr").querySelector("input[name='position']").value
+                    // console.log(pos)
+                    let send = `${id}-${pos}`
+                    ids.push(send)
+                } else {
+                    ids.push(id)
+                }
             })
             stringIDs = ids.join(", ")
             console.log(stringIDs)
