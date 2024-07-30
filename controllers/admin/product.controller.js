@@ -56,7 +56,9 @@ module.exports.index = async (req, res) => {
     // // End pagination
 
     const products = await Product.find(find)
-        .sort({position: "desc"})
+        .sort({
+            position: "desc"
+        })
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip)
     res.render("admin/pages/products/index.pug", {
@@ -80,6 +82,8 @@ module.exports.changeStatus = async (req, res) => {
         status: status
     })
 
+    req.flash("success", "Cập nhật trạng thái thành công")
+
     res.redirect("back")
 }
 
@@ -99,6 +103,8 @@ module.exports.changeMulti = async (req, res) => {
             }, {
                 status: "active"
             })
+            req.flash("success", `Cập nhật trạng thái cho ${ids.length} sản phẩm thành công`)
+
             break
         case "inactive":
             await Product.updateMany({
@@ -108,6 +114,7 @@ module.exports.changeMulti = async (req, res) => {
             }, {
                 status: "inactive"
             })
+            req.flash("success", `Cập nhật trạng thái cho ${ids.length} sản phẩm thành công`)
             break
         case "delete-all":
             await Product.updateMany({
@@ -118,6 +125,7 @@ module.exports.changeMulti = async (req, res) => {
                 deleted: true,
                 deletedAt: new Date()
             })
+            req.flash("success", `Xóa ${ids.length} sản phẩm thành công`)
             break
         case "change-position":
             // console.log(ids)
@@ -131,6 +139,7 @@ module.exports.changeMulti = async (req, res) => {
                     position: position
                 })
             }
+            req.flash("success", `Cập nhật vị trí cho ${ids.length} sản phẩm thành công`)
             break;
         default:
             break
@@ -148,7 +157,7 @@ module.exports.deleteItem = async (req, res) => {
         deleted: true,
         deletedAt: new Date()
     })
-
+    req.flash("success", `Xóa sản phẩm thành công`)
     res.redirect("back")
 }
 
@@ -195,5 +204,6 @@ module.exports.restoreItem = async (req, res) => {
     }, {
         deleted: false
     })
+    req.flash("success", `Khôi phục sản phẩm thành công`)
     res.redirect("back")
 }
