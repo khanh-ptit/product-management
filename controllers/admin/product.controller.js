@@ -87,16 +87,37 @@ module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
 
-    if (type === "active" || type === "inactive") {
-        await Product.updateMany({
-            _id: {
-                $in: ids
-            }
-        }, {
-            $set: {
-                status: type
-            }
-        });
+    switch (type) {
+        case "active":
+            await Product.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                status: "active"
+            })
+            break
+        case "inactive":
+            await Product.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                status: "inactive"
+            })
+            break
+        case "delete-all":
+            await Product.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                deleted: true,
+                deletedAt: new Date()
+            })
+            break
+        default:
+            break
     }
     res.redirect("back")
 }
@@ -117,11 +138,8 @@ module.exports.deleteItem = async (req, res) => {
 
 module.exports.deleteProducts = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query)
-    // console.log(filterStatus)
-
     let find = {
         deleted: true,
-        // title: "iPhone 9"
     }
     if (req.query.status) {
         find.status = req.query.status
@@ -156,6 +174,10 @@ module.exports.deleteProducts = async (req, res) => {
 module.exports.restoreItem = async (req, res) => {
     // const id = req.params.id
     console.log(req.params)
-    await Product.updateOne({_id: req.params.id}, {deleted: false})
+    await Product.updateOne({
+        _id: req.params.id
+    }, {
+        deleted: false
+    })
     res.redirect("back")
 }

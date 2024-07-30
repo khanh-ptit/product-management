@@ -103,6 +103,17 @@ if (formChangeMulti) {
         const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked")
         // console.log(inputsChecked)
         // console.log(textField)
+
+        const typeChange = e.target.elements.type.value;
+        console.log(typeChange)
+
+        if (typeChange == "delete-all") {
+            const confirmDelete = confirm("Bạn có muốn xóa tất cả các sản phẩm này?")
+            if (!confirmDelete) {
+                return
+            }
+        }  
+
         if (inputsChecked.length > 0) {
             let ids = []
             const inputIds = formChangeMulti.querySelector("input[class='form-control']")
@@ -117,6 +128,7 @@ if (formChangeMulti) {
             inputIds.value = stringIDs
         } else {
             alert("Vui lòng chọn ít nhất một bản ghi")
+            return
         }
         formChangeMulti.submit()
     })
