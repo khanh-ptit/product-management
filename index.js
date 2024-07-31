@@ -21,11 +21,17 @@ app.set("view engine", "pug")
 
 // Flash
 app.use(cookieParser('tomcacto'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+    cookie: {
+        maxAge: 60000
+    }
+}));
 app.use(flash());
 // End flash
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({
+    extended: false
+}))
 
 // App local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin
