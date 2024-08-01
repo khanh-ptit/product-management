@@ -7,6 +7,7 @@ const upload = multer({
 })
 
 const controller = require("../../controllers/admin/product.controller")
+const validate = require("../../validates/admin/product.validate")
 
 router.get('/', controller.index)
 
@@ -14,7 +15,7 @@ router.get('/deleted-products', controller.deleteProducts)
 
 router.get('/create', controller.create)
 
-router.post('/create', upload.single('thumbnail'), controller.createPost)
+router.post('/create', upload.single('thumbnail'), validate.createPost, controller.createPost)
 
 router.patch('/change-status/:status/:id', controller.changeStatus)
 
