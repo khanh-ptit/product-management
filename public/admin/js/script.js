@@ -158,5 +158,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }, time);
     }
 });
-
 // End show success status
+
+// Upload image
+const uploadImage = document.querySelector("[upload-image]");
+const btnCancel = document.querySelector(".image-container .button-cancel");
+
+if (uploadImage) {
+    const uploadImageInput = document.querySelector("[upload-image-input]");
+    const uploadImagePreview = document.querySelector("[upload-image-preview]");
+
+    btnCancel.classList.add("hidden")
+
+    if (uploadImageInput && uploadImagePreview && btnCancel) {
+        uploadImageInput.addEventListener("change", (e) => {
+            const file = e.target.files[0]; // Lấy ra giá trị đầu tiên
+            if (file) {
+                uploadImagePreview.src = URL.createObjectURL(file);
+                btnCancel.classList.remove("hidden"); // Hiển thị nút khi có ảnh
+            }
+        });
+
+        btnCancel.addEventListener("click", () => {
+            btnCancel.classList.add("hidden");
+            uploadImagePreview.src = ""; // Xóa ảnh preview
+            uploadImageInput.value = ""; // Xóa giá trị input
+        });
+
+        // Kiểm tra nếu không có file được chọn, ẩn nút hủy
+        uploadImageInput.addEventListener("input", () => {
+            if (!uploadImageInput.value) {
+                btnCancel.classList.add("hidden");
+            }
+        });
+    }
+}
