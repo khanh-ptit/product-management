@@ -4,17 +4,17 @@ const systemConfig = require("../../config/system")
 const filterStatusHelper = require('../../helpers/filterStatus')
 const searchHelper = require('../../helpers/search')
 const paginationHelper = require('../../helpers/pagination')
+
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
     // console.log(req.query.status)
     // Bộ lọc
     const filterStatus = filterStatusHelper(req.query)
-    // console.log(filterStatus)
 
     let find = {
         deleted: false,
-        // title: "iPhone 9"
     }
+
     if (req.query.status) {
         find.status = req.query.status
     }
@@ -24,17 +24,25 @@ module.exports.index = async (req, res) => {
         find.title = objectSearch.regex
     }
 
-
     const countProducts = await Product.countDocuments(find)
     let objectPagination = paginationHelper({
         currentPage: 1,
         limitItems: 4
     }, req.query, countProducts)
 
+
+    // sort products
+    let sort = {}
+
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue
+    } else {
+        sort.position = "desc"
+    }
+    // end sort products
+
     const products = await Product.find(find)
-        .sort({
-            position: "desc"
-        })
+        .sort(sort)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip)
     res.render("admin/pages/products/index.pug", {
