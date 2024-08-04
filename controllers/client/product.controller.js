@@ -27,7 +27,7 @@ module.exports.detail = async (req, res) => {
             status: "active"
         }
         const product = await Product.findOne(find)
-        console.log(product)
+        // console.log(product)
         res.render("client/pages/products/detail.pug", {
             pageTitle: product.title,
             product: product
@@ -35,5 +35,5 @@ module.exports.detail = async (req, res) => {
     } catch (error) {
         res.redirect("/products")
     }
-    
+
 }

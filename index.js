@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const path = require('path')
 require("dotenv").config()
 
 const database = require("./config/database")
@@ -28,6 +29,10 @@ app.use(session({
 }));
 app.use(flash());
 // End flash
+
+// TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End TinyMCE
 
 app.use(bodyParser.urlencoded({
     extended: false
