@@ -100,5 +100,13 @@ block main
                                         button-delete 
                                         data-id=item.id
                                     ) Xóa
+    
+    form(
+        action=""
+        id="form-delete-product-category"
+        method="POST"
+        data-path=`${prefixAdmin}/product-category/delete`
+    )
 
+    script(src="/admin/js/product-category.js")  
     //- +pagination(pagination)

@@ -14,4 +14,8 @@ router.get('/create', controller.create)
 
 router.post('/create', upload.single('thumbnail'), uploadCloud.upload, validate.createPost, controller.createPost)
 
+router.patch('/change-multi', controller.changeMulti)
+
+router.patch('/delete/:id', controller.deleteProductCategory)
+
 module.exports = router
