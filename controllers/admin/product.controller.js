@@ -259,6 +259,7 @@ module.exports.editPatch = async (req, res) => {
         }, req.body)
         req.flash("success", "Cập nhật thành công sản phẩm")
     } catch (error) {
+        // console.log("error")
         req.flash("error", "Cập nhật thất bại")
     }
     // res.redirect(`${systemConfig.prefixAdmin}/products`)

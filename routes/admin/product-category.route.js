@@ -12,9 +12,13 @@ router.get('/', controller.index)
 
 router.get('/create', controller.create)
 
+router.get('/edit/:id', controller.edit)
+
 router.post('/create', upload.single('thumbnail'), uploadCloud.upload, validate.createPost, controller.createPost)
 
 router.patch('/change-multi', controller.changeMulti)
+
+router.patch('/edit/:id', upload.single('thumbnail'), uploadCloud.upload, validate.createPost, controller.editPatch)
 
 router.patch('/delete/:id', controller.deleteProductCategory)
 
