@@ -1,9 +1,12 @@
 const Product = require('../../models/product.model')
+const ProductCategory = require('../../models/product-category.model')
 
 const systemConfig = require("../../config/system")
 const filterStatusHelper = require('../../helpers/filterStatus')
 const searchHelper = require('../../helpers/search')
 const paginationHelper = require('../../helpers/pagination')
+const createTreeHelper = require('../../helpers/createTree')
+
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -145,6 +148,7 @@ module.exports.deleteItem = async (req, res) => {
     res.redirect("back")
 }
 
+//[GET] /admin/products/delete-products
 module.exports.deleteProducts = async (req, res) => {
     const filterStatus = filterStatusHelper(req.query)
     let find = {
@@ -193,9 +197,18 @@ module.exports.restoreItem = async (req, res) => {
 }
 
 // [GET] /admin/products/create
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false
+    }
+
+    const category = await ProductCategory.find(find)
+    console.log(category)
+    const treeCategory = createTreeHelper.tree(category)
+
     res.render("admin/pages/products/create", {
-        pageTitle: "Thêm mới sản phẩm"
+        pageTitle: "Thêm mới sản phẩm",
+        category: treeCategory
     })
 }
 
@@ -231,10 +244,15 @@ module.exports.edit = async (req, res) => {
             _id: id
         }
         const product = await Product.findOne(find)
+        const category = await ProductCategory.find({
+            deleted: false
+        })
+        const treeCategory = createTreeHelper.tree(category)
         // console.log(product)
         res.render("admin/pages/products/edit", {
             pageTitle: "Chỉnh sửa sản phẩm",
-            product: product
+            product: product,
+            category: treeCategory
         })
     } catch (error) {
         res.redirect(`${systemConfig.prefixAdmin}/products`)
@@ -266,6 +284,7 @@ module.exports.editPatch = async (req, res) => {
     res.redirect("back")
 }
 
+// [GET] /admin/products/detail/:id
 module.exports.detail = async (req, res) => {
     try {
         const id = req.params.id
