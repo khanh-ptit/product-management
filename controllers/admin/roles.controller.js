@@ -94,3 +94,33 @@ module.exports.permissionsPatch = async (req, res) => {
         req.flash("error", "Cập nhật phân quyền thất bại")
     }
 }
+
+// [GET] /admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id
+        const record = await Role.findOne({
+            _id: id
+        })
+        res.render("admin/pages/roles/detail.pug", {
+            pageTitle: record.title,
+            record: record
+        })
+    } catch (error) {
+        req.flash("error", "Đường dẫn không tồn tại !")
+        res.redirect(`${systemConfig.prefixAdmin}/roles`)
+    }
+
+}
+
+// [DELETE] /admin/roles/delete/:id
+module.exports.delete = async (req, res) => {
+    const id = req.params.id
+    await Role.updateOne({
+        _id: id
+    }, {
+        deleted: true
+    })
+    req.flash("success", "Xoá thành công danh mục")
+    res.redirect("back")
+}

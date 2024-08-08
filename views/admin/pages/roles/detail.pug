@@ -1,0 +1,7 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1(class="mb-3") #{record.title}
+
+    if (record.description)
+        div(class="mb-4") Mô tả: !{record.description} 

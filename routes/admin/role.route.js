@@ -18,8 +18,12 @@ router.post('/create', controller.createPost)
 
 router.get('/edit/:id', controller.edit)
 
+router.get('/detail/:id', controller.detail)
+
 router.patch('/edit/:id', controller.editPatch)
 
 router.patch('/permissions', controller.permissionsPatch)
+
+router.patch('/delete/:id', controller.delete)
 
 module.exports = router

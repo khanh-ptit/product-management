@@ -14,6 +14,8 @@ router.get('/create', controller.create)
 
 router.get('/edit/:id', controller.edit)
 
+router.get('/detail/:id', controller.detail)
+
 router.post('/create', upload.single('thumbnail'), uploadCloud.upload, validate.createPost, controller.createPost)
 
 router.patch('/change-multi', controller.changeMulti)

@@ -38,23 +38,6 @@ if (tablePermissions) {
 // End permission
 
 // Permission data default
-// const dataRecords = document.querySelector("[data-records]")
-// if (dataRecords) {
-//     const tablePermissions = document.querySelector("[table-permissions]")
-//     const records = JSON.parse(dataRecords.getAttribute("data-records"))
-//     console.log(records)
-//     records.forEach((record, index) => {
-//         const permissions = record.permissions
-
-//         permissions.forEach(permission => {
-//             const row = tablePermissions.querySelector(`[data-name='${permission}']`);
-//             // console.log(row)
-//             const input = row.querySelectorAll("input")[index]
-//             // console.log(input)
-//             input.checked = true
-//         })
-//     })
-// }
 const dataRecords = document.querySelector("[data-records]")
 if (dataRecords) {
     const tablePermissions = document.querySelector("[table-permissions]")
@@ -76,3 +59,30 @@ if (dataRecords) {
     }
 }
 // End permission data default
+
+// Delete role
+const formDeleteRole = document.querySelector("[form-delete-role]")
+if (formDeleteRole) {
+    const path = formDeleteRole.getAttribute("data-path")
+    console.log(path)
+    const btnDelete = document.querySelectorAll("[button-delete]")
+    // console.log(btnDelete)
+    btnDelete.forEach(button => {
+        button.addEventListener("click", () => {
+            const confirmDelete = confirm("Bạn có muốn xóa nhóm quyền này không?")
+            if (confirmDelete) {
+                const id = button.getAttribute("data-id")
+                // console.log(id)
+                const action = `${path}/${id}?_method=PATCH`
+                console.log(action)
+                formDeleteRole.action = action
+                formDeleteRole.submit()
+            } else {
+                return
+            }
+
+        })
+    })
+
+}
+// End delete role

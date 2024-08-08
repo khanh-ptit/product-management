@@ -58,7 +58,7 @@ module.exports.createPost = async (req, res) => {
     }
     const productCategory = new ProductCategory(req.body)
     await productCategory.save()
-    req.flash("success", "Thêm thành công sản phẩm")
+    req.flash("success", "Thêm thành công danh mục sản phẩm")
     res.redirect(`${systemConfig.prefixAdmin}/product-category`)
 }
 
@@ -153,7 +153,7 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
     console.log(req.body)
     req.body.position = parseInt(req.body.position)
-    try {    
+    try {
         await ProductCategory.updateOne({
             _id: req.params.id
         }, req.body)
@@ -164,4 +164,29 @@ module.exports.editPatch = async (req, res) => {
         // res.redirect(`${systemConfig.prefixAdmin}/product-category`)
     }
     res.redirect("back")
+}
+
+// [GET] /admin/product-category/detail:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id
+        const record = await ProductCategory.findOne({
+            _id: id
+        })
+        let parentCategory = null;
+        if (record.parent_id) {
+            parentCategory = await ProductCategory.findOne({
+                _id: record.parent_id
+            })
+        }
+        console.log(record)
+        res.render("admin/pages/product-category/detail.pug", {
+            pageTitle: record.title,
+            record: record,
+            parentCategory: parentCategory
+        })
+    } catch (error) {
+        req.flash("error", "Đường dẫn không tồn tại !")
+        res.redirect(`${systemConfig.prefixAdmin}/product-category`)
+    }
 }
