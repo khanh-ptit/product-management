@@ -12,12 +12,14 @@ router.get('/', controller.index)
 
 router.get('/create', controller.create)
 
-router.get('/permissions', controller.permission)
+router.get('/permissions', controller.permissions)
 
 router.post('/create', controller.createPost)
 
 router.get('/edit/:id', controller.edit)
 
 router.patch('/edit/:id', controller.editPatch)
+
+router.patch('/permissions', controller.permissionsPatch)
 
 module.exports = router
