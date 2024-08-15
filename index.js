@@ -5,6 +5,7 @@ const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const path = require('path')
+const moment = require('moment')
 require("dotenv").config()
 
 const database = require("./config/database")
@@ -40,6 +41,7 @@ app.use(bodyParser.urlencoded({
 
 // App local variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.moment = moment
 
 app.use(methodOverride('_method'))
 app.use(express.static(`${__dirname}/public`))

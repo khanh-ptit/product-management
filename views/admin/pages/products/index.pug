@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/formChangeMulti.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug
+include ../../mixins/moment.pug
 
 block main
     if (role.permissions.includes('products_view'))
@@ -56,6 +57,7 @@ block main
                                 th Vị trí
                                 th Trạng thái
                                 th Hành động
+                                th Người tạo
                         tbody
                             each item, index in products
                                 tr
@@ -120,6 +122,19 @@ block main
                                                 button-delete 
                                                 data-id=item.id
                                             ) Xóa
+                                    td
+                                        each account in accounts
+                                            //- div #{account.id}
+                                            //- div #{item.createdBy.account_id}
+            
+                                            if (account.id == item.createdBy.account_id)
+                                                p #{account.fullName}
+                                                +format-dateTime(item.createdBy.createdAt)
+                                                //- p #{moment(item.createdBy.createdAt).format("DD/MM/YYYY HH:mm:ss")}
+                                                //- p #{moment(item.createdBy.createdAt).format("DD/MM/YYYY")}
+                                                //- p #{moment(item.createdBy.createdAt).format("HH:mm:ss")}
+
+
 
         +pagination(pagination)
 
