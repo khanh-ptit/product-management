@@ -82,20 +82,27 @@ block main
                                             name="position"
                                         )
                                     td
-                                        if (item.status == "active")
-                                            a(
-                                                href="javascript:;" 
-                                                data-status="active"
-                                                data-id=item.id
-                                                button-change-status
-                                                class="badge badge-success") Hoạt động
-                                        else 
-                                            a(
-                                                href="javascript:;"
-                                                data-status="inactive"
-                                                data-id=item.id
-                                                button-change-status
-                                                class="badge badge-danger") Dừng hoạt động
+                                        if (role.permissions.includes('products_edit'))
+                                            if (item.status == "active")
+                                                a(
+                                                    href="javascript:;" 
+                                                    data-status="active"
+                                                    data-id=item.id
+                                                    button-change-status
+                                                    class="badge badge-success") Hoạt động
+                                            else 
+                                                a(
+                                                    href="javascript:;"
+                                                    data-status="inactive"
+                                                    data-id=item.id
+                                                    button-change-status
+                                                    class="badge badge-danger") Dừng hoạt động
+                                        else
+                                            if (item.status == "active")
+                                                span(class="badge badge-success") Hoạt động
+                                            else
+                                                span(class="badge badge-danger") Dừng hoạt động
+
 
                                     td
                                         a(
