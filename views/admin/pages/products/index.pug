@@ -58,6 +58,7 @@ block main
                                 th Trạng thái
                                 th Hành động
                                 th Người tạo
+                                th Cập nhật lần cuối
                         tbody
                             each item, index in products
                                 tr
@@ -130,9 +131,19 @@ block main
                                             if (account.id == item.createdBy.account_id)
                                                 p #{account.fullName}
                                                 +format-dateTime(item.createdBy.createdAt)
-                                                //- p #{moment(item.createdBy.createdAt).format("DD/MM/YYYY HH:mm:ss")}
-                                                //- p #{moment(item.createdBy.createdAt).format("DD/MM/YYYY")}
-                                                //- p #{moment(item.createdBy.createdAt).format("HH:mm:ss")}
+                                    td
+                                        if item.updatedBy.length > 0
+                                            each account in accounts
+                                                if (item.updatedBy[item.updatedBy.length-1].account_id == account.id)
+                                                    p #{account.fullName}
+                                                    +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
+
+                                            //- p #{item.updatedBy[item.updatedBy.length-1]}
+                                        //- if item.updatedBy[item.updatedBy.length-1] && item.updatedBy[item.updatedBy.length-1].account_id
+                                            p #{item.updatedBy[item.updatedBy.length-1].account_id}
+                                        //- else
+                                        //-     p Không có account_id
+
 
 
 
