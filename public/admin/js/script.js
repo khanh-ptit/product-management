@@ -116,7 +116,8 @@ if (formChangeMulti) {
 
         if (inputsChecked.length > 0) {
             let ids = []
-            const inputIds = formChangeMulti.querySelector("input[class='form-control']")
+            const inputIds = formChangeMulti.querySelector("input[name='ids']")
+            console.log(inputIds)
             let stringIDs = ''
             inputsChecked.forEach(input => {
                 const id = input.getAttribute("value")

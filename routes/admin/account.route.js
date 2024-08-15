@@ -18,4 +18,8 @@ router.patch('/edit/:id', upload.single('avatar'), uploadCloud.upload, validate.
 
 router.post('/create', upload.single('avatar'), uploadCloud.upload, validate.createPost, controller.createPost)
 
+router.get('/detail/:id', controller.detail)
+
+router.patch('/delete/:id', controller.delete)
+
 module.exports = router

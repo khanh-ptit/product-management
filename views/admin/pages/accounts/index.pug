@@ -1,80 +1,92 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
-block main 
-    h1(class="mb-3") Trang danh sách tài khoản
-    +alert-success(5000)
-    +alert-error(5000)
+block main
+    if (role.permissions.includes('accounts_view'))
+        h1(class="mb-3") Trang danh sách tài khoản
+        +alert-success(5000)
+        +alert-error(5000)
 
-    .card.mb-3 
-        .card-header 
-        .card-body 
-            .row 
-                .col-8 
-                .col-4.text-right 
-                    a(
-                        href=`${prefixAdmin}/accounts/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
-    .card.mb-3
-        .card-header Danh sách tài khoản
-            .card-body
-                table(
-                    class="table table-hover table-sm"
-                    checkbox-multi
-                )
-                    thead
-                        tr
-                            th 
-                                input(type="checkbox" name="checkall")
-                            th STT
-                            th Avatar
-                            th Họ và tên
-                            th Email
-                            th Nhóm quyền 
-                            th Trạng thái 
-                            th Hành động
-                    tbody
-                        each item, index in records
+        if (role.permissions.includes('accounts_create'))
+            .card.mb-3 
+                .card-header 
+                .card-body 
+                    .row 
+                        .col-8 
+                        .col-4.text-right 
+                            a(
+                                href=`${prefixAdmin}/accounts/create`
+                                class="btn btn-outline-success"
+                            ) + Thêm mới
+        .card.mb-3
+            .card-header Danh sách tài khoản
+                .card-body
+                    table(
+                        class="table table-hover table-sm"
+                        checkbox-multi
+                    )
+                        thead
                             tr
-                                td 
-                                    input(
-                                        type="checkbox"
-                                        name="id"
-                                        value=item.id
-                                    )
-                                td #{index + 1}   
-                                td 
-                                    img(
-                                        alt=item.fullName
-                                        width="100px"
-                                        height="auto"
-                                        src=item.avatar
-                                    )
-                                td #{item.fullName}
-                                td #{item.email}
-                                td #{item.role.title}
-                                td
-                                    if item.status == "active"
+                                th 
+                                    input(type="checkbox" name="checkall")
+                                th STT
+                                th Avatar
+                                th Họ và tên
+                                th Email
+                                th Nhóm quyền 
+                                th Trạng thái 
+                                th Hành động
+                        tbody
+                            each item, index in records
+                                tr
+                                    td 
+                                        input(
+                                            type="checkbox"
+                                            name="id"
+                                            value=item.id
+                                        )
+                                    td #{index + 1}   
+                                    td 
+                                        img(
+                                            alt=item.fullName
+                                            width="100px"
+                                            height="auto"
+                                            src=item.avatar
+                                        )
+                                    td #{item.fullName}
+                                    td #{item.email}
+                                    td #{item.role.title}
+                                    td
+                                        if item.status == "active"
+                                            a(
+                                                class="badge badge-success"
+                                            ) Hoạt động
+                                        else 
+                                            a(
+                                                class="badge badge-danger"
+                                            ) Dừng hoạt động
+                                    td
                                         a(
-                                            class="badge badge-success"
-                                        ) Hoạt động
-                                    else 
-                                        a(
-                                            class="badge badge-danger"
-                                        ) Dừng hoạt động
-                                td
-                                    a(
-                                        href=`${prefixAdmin}/accounts/detail/${item.id}`
-                                        class="btn btn-secondary btn-sm"
-                                    ) Chi tiết 
-                                    a(
-                                        href=`${prefixAdmin}/accounts/edit/${item.id}`
-                                        class="btn btn-warning btn-sm ml-1"
-                                    ) Sửa
-                                    button(
-                                        class="btn btn-danger btn-sm ml-1"
-                                        data-id=item.id
-                                        button-delete
-                                    ) Xoá
-
+                                            href=`${prefixAdmin}/accounts/detail/${item.id}`
+                                            class="btn btn-secondary btn-sm"
+                                        ) Chi tiết 
+                                        if (role.permissions.includes('accounts_edit'))
+                                            a(
+                                                href=`${prefixAdmin}/accounts/edit/${item.id}`
+                                                class="btn btn-warning btn-sm ml-1"
+                                            ) Sửa
+                                        if (role.permissions.includes('accounts_delete'))
+                                            button(
+                                                class="btn btn-danger btn-sm ml-1"
+                                                data-id=item.id
+                                                button-delete
+                                            ) Xoá
+                    form(
+                        form-delete-account
+                        action=``
+                        method="POST"
+                        data-path=`${prefixAdmin}/accounts/delete`
+                    )
+        script(src="/admin/js/account.js") 
+    else 
+        h1 Bạn không có quyền truy cập vào danh sách tài khoản

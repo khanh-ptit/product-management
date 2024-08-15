@@ -1,6 +1,14 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
-block main 
-    +alert-success(5000)
-    h1 Trang tổng quan
+block main
+    if (role.permissions.length > 0)
+        h1 Trang tổng quan
+        +alert-success(5000)
+        
+        div #{user}
+        div ---------------
+        div #{role.title}
+        div #{role.permissions}
+    else 
+        h1 Bạn không có quyền truy cập nào

@@ -116,3 +116,36 @@ module.exports.editPatch = async (req, res) => {
         res.redirect(`${systemConfig.prefixAdmin}/accounts`)
     }
 }
+
+// [GET] /admin/accounts/details/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id
+        const record = await Account.findOne({
+            _id: id
+        }).select("-password")
+        const roles = await Role.find({
+            deleted: false
+        })
+        res.render("admin/pages/accounts/detail.pug", {
+            pageTitle: "Chi tiết tài khoản",
+            record: record,
+            roles: roles
+        })
+    } catch (error) {
+        req.flash("error", "Đường dẫn không tồn tại !")
+        res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+    }
+}
+
+// [DELETE] /admin/account/delete/:id
+module.exports.delete = async (req, res) => {
+    const id = req.params.id
+    await Account.updateOne({
+        _id: id
+    }, {
+        deleted: true
+    })
+    req.flash("success", "Xoá thành công tài khoản!")
+    res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+}

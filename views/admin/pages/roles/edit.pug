@@ -1,29 +1,32 @@
 extends ../../layouts/default.pug
 
 block main 
-    h1(class="mb-3") Chỉnh sửa nhóm quyền
+    if (role.permissions.includes('roles_edit'))
+        h1(class="mb-3") Chỉnh sửa nhóm quyền
 
-    form(
-        action=`${prefixAdmin}/roles/edit/${record.id}?_method=PATCH`
-        method="POST"
-    )
-        div(class="form-group")
-            label(for="title") Tiêu đề
-            input(
-                id="title"
-                name="title"
-                class="form-control"
-                value=record.title
-            )
-        div(class="form-group")
-            label(for="description") Mô tả
-            textarea(
-                id="description"
-                name="description"
-                class="form-control textarea-mce"
-            ) !{record.description}
-        div(class="form-group")
-            button(
-                type="submit"
-                class="btn btn-primary"
-            ) Chỉnh sửa
+        form(
+            action=`${prefixAdmin}/roles/edit/${record.id}?_method=PATCH`
+            method="POST"
+        )
+            div(class="form-group")
+                label(for="title") Tiêu đề
+                input(
+                    id="title"
+                    name="title"
+                    class="form-control"
+                    value=record.title
+                )
+            div(class="form-group")
+                label(for="description") Mô tả
+                textarea(
+                    id="description"
+                    name="description"
+                    class="form-control textarea-mce"
+                ) !{record.description}
+            div(class="form-group")
+                button(
+                    type="submit"
+                    class="btn btn-primary"
+                ) Chỉnh sửa
+    else 
+        h1 Bạn không có quyền chỉnh sửa nhóm quyền
