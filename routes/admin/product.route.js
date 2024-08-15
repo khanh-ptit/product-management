@@ -26,6 +26,8 @@ router.patch('/change-multi', controller.changeMulti)
 
 router.delete('/delete/:id', controller.deleteItem)
 
+router.delete('/delete-permanent/:id', controller.deletePermanent)
+
 router.patch('/restore/:id', controller.restoreItem)
 
 router.get('/detail/:id', controller.detail)

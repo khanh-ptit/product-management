@@ -24,3 +24,25 @@ if (btnsRestore.length > 0) {
     })
 }
 // End Restore products
+
+// Delete products permanently
+const formDeleteItemPermanent = document.querySelector('#form-delete-item-permanent')
+if (formDeleteItemPermanent) {
+    const path = formDeleteItemPermanent.getAttribute("data-path")
+    const btnDelete = document.querySelectorAll("[button-delete-permanent]")
+    if (btnDelete.length > 0) {
+        btnDelete.forEach(button => {
+            button.addEventListener("click", () => {
+                const confirmDelete = confirm("Bạn có chắc chắn muốn xóa vĩnh viễn sản phẩm này?")
+                if (!confirmDelete) {
+                    return
+                }
+                const id = button.getAttribute("data-id")
+                const action = `${path}/${id}?_method=DELETE`
+                console.log(action)
+                formDeleteItemPermanent.action = action
+                formDeleteItemPermanent.submit()
+            })
+        })
+    }
+}

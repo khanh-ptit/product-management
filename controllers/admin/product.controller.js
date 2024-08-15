@@ -50,10 +50,10 @@ module.exports.index = async (req, res) => {
         .sort(sort)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip)
-    
+
     const accounts = await Account.find({
         deleted: false
-    }) 
+    })
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Danh sách sản phẩm",
         products: products,
@@ -117,7 +117,10 @@ module.exports.changeMulti = async (req, res) => {
                 }
             }, {
                 deleted: true,
-                deletedAt: new Date()
+                deletedBy: {
+                    account_id: res.locals.user.id,
+                    deletedAt: Date(Date.now())
+                }
             })
             req.flash("success", `Xóa ${ids.length} sản phẩm thành công`)
             break
@@ -159,7 +162,10 @@ module.exports.deleteItem = async (req, res) => {
         _id: id
     }, {
         deleted: true,
-        deletedAt: new Date()
+        deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date()
+        }
     })
     req.flash("success", `Xóa sản phẩm thành công`)
     res.redirect("back")
@@ -190,13 +196,17 @@ module.exports.deleteProducts = async (req, res) => {
     }, req.query, countProducts)
     // const deletedProducts = await Product.find({deleted: true})
     const deletedProducts = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip)
+    const accounts = await Account.find({
+        deleted: false
+    })
 
     res.render("admin/pages/products/deleted-products.pug", {
         products: deletedProducts,
         pageTitle: "Trang sản phẩm đã xóa",
         filterStatus: filterStatus,
         keyword: objectSearch.keyword,
-        pagination: objectPagination
+        pagination: objectPagination,
+        accounts: accounts
     })
 }
 
@@ -212,6 +222,21 @@ module.exports.restoreItem = async (req, res) => {
     req.flash("success", `Khôi phục sản phẩm thành công`)
     res.redirect("back")
 }
+
+// [DELETE] /admin/products/delete-permanent/:id
+module.exports.deletePermanent = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Product.deleteOne({
+            _id: id
+        });
+        req.flash("success", "Đã xóa thành công sản phẩm khỏi thùng rác!");
+    } catch (err) {
+        req.flash("error", "Có lỗi xảy ra khi xóa sản phẩm!");
+    }
+
+    res.redirect(`${systemConfig.prefixAdmin}/products/deleted-products`);
+};
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
