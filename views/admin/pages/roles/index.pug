@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/moment.pug
 
 block main 
     if (role.permissions.includes('roles_view'))
@@ -29,6 +30,8 @@ block main
                             th Nhóm quyền
                             th Mô tả ngắn 
                             th Hành động
+                            th Người tạo 
+                            th Cập nhật bởi
                     tbody 
                         if (records.length > 0)
                             each item, index in records
@@ -52,6 +55,20 @@ block main
                                                 button-delete
                                                 data-id=item.id
                                             ) Xóa
+                                    td
+                                        each account in accounts 
+                                            //- p #{account.fullName}
+                                            if (item.createdBy.account_id == account.id)
+                                                p #{account.fullName}
+                                                +format-dateTime(item.createdBy.createdAt)
+                                    td
+                                        if item.updatedBy.length > 0
+                                            //- p #{item.updatedBy[item.updatedBy.length-1].account_id}
+                                            each account in accounts 
+                                                if (item.updatedBy[item.updatedBy.length-1].account_id == account.id)
+                                                    p #{account.fullName}
+                                                    +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
+
                         else 
                             tr 
                                 td(colspan="4" class="text-center") Chưa có nhóm quyền nào được tạo

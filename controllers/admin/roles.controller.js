@@ -1,4 +1,5 @@
 const Role = require('../../models/role.model')
+const Account = require('../../models/account.model')
 const systemConfig = require('../../config/system')
 
 // [GET] /admin/roles
@@ -7,10 +8,13 @@ module.exports.index = async (req, res) => {
         deleted: false
     }
     const records = await Role.find(find)
-
+    const accounts = await Account.find({
+        deleted: false
+    })
     res.render("admin/pages/roles/index.pug", {
         pageTitle: "Nhóm quyền",
-        records: records
+        records: records,
+        accounts: accounts
     })
 }
 
@@ -24,6 +28,9 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/roles/create
 module.exports.createPost = async (req, res) => {
     console.log(req.body)
+    req.body.createdBy = {
+        account_id: res.locals.user.id
+    }
     const role = new Role(req.body)
     await role.save()
     req.flash("success", "Thêm thành công nhóm quyền") // Tẹo thêm thông báo
@@ -54,9 +61,20 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
     console.log(req.body)
     const id = req.params.id
-    const record = await Role.updateOne({
+
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+    }
+
+    await Role.updateOne({
         _id: id
-    }, req.body)
+    }, {
+        $set: req.body,
+        $push: {
+            updatedBy: updatedBy
+        }
+    })
     req.flash("success", "Cập nhật nhóm quyền thành công")
     res.redirect(`${systemConfig.prefixAdmin}/roles`)
 }
@@ -119,7 +137,11 @@ module.exports.delete = async (req, res) => {
     await Role.updateOne({
         _id: id
     }, {
-        deleted: true
+        deleted: true,
+        deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date()
+        }
     })
     req.flash("success", "Xoá thành công danh mục")
     res.redirect("back")
