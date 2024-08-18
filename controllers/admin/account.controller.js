@@ -10,17 +10,26 @@ module.exports.index = async (req, res) => {
     }
     const records = await Account.find(find).select("-password -token")
 
-    for (const record of records) {
-        const role = await Role.findOne({
-            _id: record.role_id,
-            deleted: false
-        })
-        record.role = role
-    }
+    const roles = await Role.find({
+        deleted: false
+    })
+
+    // for (const record of records) {
+    //     const role = await Role.findOne({
+    //         _id: record.role_id,
+    //         deleted: false
+    //     })
+    //     if (role) {
+    //         record.role = role
+    //     } else {
+    //         record.role = "Không có nhóm quyền"
+    //     }
+    // }
 
     res.render("admin/pages/accounts/index.pug", {
         pageTitle: "Danh sách tài khoản",
-        records: records
+        records: records,
+        recordRoles: roles
     })
 }
 

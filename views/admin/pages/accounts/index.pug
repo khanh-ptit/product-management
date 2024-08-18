@@ -54,8 +54,14 @@ block main
                                             src=item.avatar
                                         )
                                     td #{item.fullName}
-                                    td #{item.email}
-                                    td #{item.role.title}
+                                    td #{item.email}     
+                                    -let flag = 1    
+                                    each recordRole in recordRoles 
+                                        if (item.role_id == recordRole.id)
+                                            td #{recordRole.title}
+                                            - flag = 0
+                                    if (flag == 1)
+                                        td Không tồn tại nhóm quyền
                                     td
                                         if item.status == "active"
                                             a(
