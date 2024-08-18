@@ -55,5 +55,21 @@ mixin table-tree(items, level = 1)
                         button-delete 
                         data-id=item.id
                     ) Xóa
+            td 
+                each account in accounts 
+                    if (account.id == item.createdBy.account_id)
+                        p #{account.fullName}
+                        +format-dateTime(item.createdBy.createdAt)
+            td 
+                if item.updatedBy.length > 0
+                    //- p Tomcacto
+                    each account in accounts 
+                        //- p #{account.id}
+                        //- p #{item.updatedBy[item.updatedBy.length-1]}
+                        if (account.id == item.updatedBy[item.updatedBy.length-1].account_id)
+                            p #{account.fullName}
+                            +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
+
         if item.children && item.children.length > 0
             +table-tree(item.children, level + 1)
+            
