@@ -3,6 +3,7 @@ const productHelper = require("../../helpers/product")
 
 // [GET] /
 module.exports.index = async (req, res) => {
+    // Getting featured products
     const featuredProducts = await Product.find({
         featured: "1",
         deleted: false,
@@ -10,9 +11,20 @@ module.exports.index = async (req, res) => {
     })
 
     const newProducts = productHelper.getNewPrice(featuredProducts)
+    // End getting featured products
+
+    // Getting lastest products
+    const latestProducts = await Product.find({
+        deleted: false,
+        status: "active"
+    }).limit(6).sort({
+        position: "desc"
+    })
+    // End getting lastest products
 
     res.render("client/pages/home/index.pug", {
         pageTitle: "Trang chủ",
-        featuredProducts: newProducts
+        featuredProducts: newProducts,
+        latestProducts: latestProducts
     })
 }
