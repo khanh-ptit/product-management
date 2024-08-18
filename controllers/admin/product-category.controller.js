@@ -181,31 +181,36 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/product-category/edit:id
 module.exports.editPatch = async (req, res) => {
-    console.log(req.body)
-    req.body.position = parseInt(req.body.position)
-    try {
-        const updatedBy = {
-            account_id: res.locals.user.id,
-            updatedAt: new Date()
-        }
-        console.log(updatedBy)
-        await ProductCategory.updateOne({
-            _id: req.params.id
-        }, {
-            $set: req.body,
-            $push: {
-                updatedBy: updatedBy
-            }
-        })
-        req.flash("success", "Chỉnh sửa thành công danh mục sản phẩm")
-        // res.redirect("back")
-        res.redirect(`${systemConfig.prefixAdmin}/product-category`)
-    } catch (error) {
-        // res.redirect("back")
-        req.error("error", "Chỉnh sửa thất bại sản phẩm")
-        res.redirect(`${systemConfig.prefixAdmin}/product-category`)
-    }
+    // console.log(req.body)
+    const permissions = res.locals.role.permissions
 
+    if (permissions.include("product-category_create")) {
+        req.body.position = parseInt(req.body.position)
+        try {
+            const updatedBy = {
+                account_id: res.locals.user.id,
+                updatedAt: new Date()
+            }
+            console.log(updatedBy)
+            await ProductCategory.updateOne({
+                _id: req.params.id
+            }, {
+                $set: req.body,
+                $push: {
+                    updatedBy: updatedBy
+                }
+            })
+            req.flash("success", "Chỉnh sửa thành công danh mục sản phẩm")
+            // res.redirect("back")
+            res.redirect(`${systemConfig.prefixAdmin}/product-category`)
+        } catch (error) {
+            // res.redirect("back")
+            req.error("error", "Chỉnh sửa thất bại sản phẩm")
+            res.redirect(`${systemConfig.prefixAdmin}/product-category`)
+        }
+    } else {
+        return
+    }
 }
 
 // [GET] /admin/product-category/detail:id
