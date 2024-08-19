@@ -5,8 +5,9 @@ mixin alert-success(time)
                 class="alert alert-success"
                 show-alert
                 data-time=time
-            ) #{messages.success} 
-                span(class="btn-cancel") X
+            ) #{messages.success}
+                span.btn-cancel x
+
 
 mixin alert-error(time)
     if (messages.error)
@@ -15,5 +16,4 @@ mixin alert-error(time)
                 class="alert alert-danger"
                 show-alert
                 data-time=time
-            ) #{messages.error} 
-                span(class="btn-cancel") X
+            ) #{messages.error} <span class="btn-cancel">x</span>

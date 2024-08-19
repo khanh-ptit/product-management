@@ -8,7 +8,25 @@ header.header
                     a(href="/")
                         img(src="/images/logo.svg", alt="")
 
-            .col-9 
+            .col-5 
+                form(
+                    action="/search"
+                    method="GET"
+                )      
+                    div(class="form-group d-flex mb-0")
+                        input(
+                            type="text"
+                            placeholder="Nhập từ khóa..."
+                            class="form-control"
+                            name="keyword"
+                            value=keyword
+                        )
+                        button(
+                            type="submit"
+                            class="btn btn-primary"
+                        ) Tìm
+
+            .col-4
                 .inner-menu 
                     ul
                         li
@@ -17,16 +35,3 @@ header.header
                             -const pathProduct = "/products"
                             a(href=pathProduct) Sản phẩm
                                 +sub-menu(layoutProductCategories, pathProduct)
-                            //- ul
-                            //-     li
-                            //-         a(href="/products/slug-1") Mục 1
-                            //-         ul
-                            //-             li
-                            //-                 a(href="/products/slug-1-1") Mục 1 - 1
-                            //-             li
-                            //-                 a(href="/products/slug-1-2") Mục 1 - 2
-                            //-                 ul
-                            //-                     li
-                            //-                         a(href="/products/slug-1-2-1") Mục 1 - 2 - 1
-                            //-                     li
-                            //-                         a(href="/products/slug-1-2-2") Mục 1 - 2 - 2
