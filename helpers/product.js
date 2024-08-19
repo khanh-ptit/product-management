@@ -6,3 +6,8 @@ module.exports.getNewPrice = (products) => {
 
     return newProducts
 }
+
+module.exports.getNewPriceOne = (price, discountPercentage) => {
+    priceNew = (price * (100 - discountPercentage) / 100).toFixed(0)
+    return priceNew
+}
