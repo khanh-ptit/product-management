@@ -1,11 +1,11 @@
-const ArticalCategory = require("../../models/article-category.model")
+const ArticleCategory = require("../../models/article-category.model")
 const Account = require("../../models/account.model")
 const systemConfig = require("../../config/system")
 const treeHelper = require("../../helpers/createTree")
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 
-// [GET] /admin/artical-category
+// [GET] /admin/article-category
 module.exports.index = async (req, res) => {
     // Bộ lọc
     const filterStatus = filterStatusHelper(req.query)
@@ -23,7 +23,7 @@ module.exports.index = async (req, res) => {
         find.title = objectSearch.regex
     }
 
-    const records = await ArticalCategory.find(find)
+    const records = await ArticleCategory.find(find)
     const account_id = res.locals.user.id
     console.log(account_id)
     const account = await Account.findOne({
@@ -32,7 +32,7 @@ module.exports.index = async (req, res) => {
     })
 
     const treeRecords = treeHelper.tree(records)
-    res.render("admin/pages/artical-category/index", {
+    res.render("admin/pages/article-category/index", {
         pageTitle: "Danh mục bài viết",
         records: treeRecords,
         account: account,
@@ -41,63 +41,63 @@ module.exports.index = async (req, res) => {
     })
 }
 
-// [GET] /admin/artical-category/create
+// [GET] /admin/article-category/create
 module.exports.create = async (req, res) => {
-    const records = await ArticalCategory.find({
+    const records = await ArticleCategory.find({
         deleted: false
     })
     const treeRecords = treeHelper.tree(records)
-    res.render("admin/pages/artical-category/create.pug", {
+    res.render("admin/pages/article-category/create.pug", {
         pageTitle: "Tạo danh mục bài viết",
         records: treeRecords
     })
 }
 
-// [POST] /admin/artical-category/create
+// [POST] /admin/article-category/create
 module.exports.createPost = async (req, res) => {
     console.log(req.body)
     req.body.createdBy = {
         account_id: res.locals.user.id
     }
-    const articalCategory = new ArticalCategory(req.body)
-    articalCategory.save()
+    const articleCategory = new ArticleCategory(req.body)
+    articleCategory.save()
     req.flash("success", "Thêm thành công danh mục bài viết!")
-    res.redirect(`${systemConfig.prefixAdmin}/artical-category`)
+    res.redirect(`${systemConfig.prefixAdmin}/article-category`)
 }
 
-// [GET] /admin/artical-category/edit/:id
+// [GET] /admin/article-category/edit/:id
 module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id
-        const record = await ArticalCategory.findOne({
+        const record = await ArticleCategory.findOne({
             _id: id,
             deleted: false
         })
 
-        const articalCategories = await ArticalCategory.find({
+        const articleCategories = await ArticleCategory.find({
             deleted: false
         })
-        const treeCategories = treeHelper.tree(articalCategories)
+        const treeCategories = treeHelper.tree(articleCategories)
         // console.log(treeCategories)
-        res.render("admin/pages/artical-category/edit.pug", {
+        res.render("admin/pages/article-category/edit.pug", {
             pageTitle: "Chỉnh sửa danh mục bài viết",
             record: record,
             treeCategories: treeCategories
         })
     } catch (error) {
         req.flash("error", "Đường dẫn không tồn tại!")
-        res.redirect(`${systemConfig.prefixAdmin}/artical-category`)
+        res.redirect(`${systemConfig.prefixAdmin}/article-category`)
     }
 }
 
-// [PATCH] /admin/artical-category/edit/:id
+// [PATCH] /admin/article-category/edit/:id
 module.exports.editPatch = async (req, res) => {
     const id = req.params.id
     const updatedBy = {
         account_id: res.locals.user.id,
         updatedAt: new Date()
     }
-    await ArticalCategory.updateOne({
+    await ArticleCategory.updateOne({
         _id: id
     }, {
         $set: req.body,
@@ -106,34 +106,39 @@ module.exports.editPatch = async (req, res) => {
         }
     })
     req.flash("success", "Cập nhật thành công danh mục bài viết")
-    res.redirect(`${systemConfig.prefixAdmin}/artical-category`)
+    res.redirect(`${systemConfig.prefixAdmin}/article-category`)
 }
 
-// [GET] /admin/artical-category/detail/:id
+// [GET] /admin/article-category/detail/:id
 module.exports.detail = async (req, res) => {
-    const id = req.params.id
-    const record = await ArticalCategory.findOne({
-        _id: id,
-        deleted: false
-    })
-    if (record.parent_id) {
-        const parentCategory = await ArticalCategory.findOne({
-            _id: record.parent_id
+    try {
+        const id = req.params.id
+        const record = await ArticleCategory.findOne({
+            _id: id,
+            deleted: false
         })
-        record.parentCategory = parentCategory
+        if (record.parent_id) {
+            const parentCategory = await ArticleCategory.findOne({
+                _id: record.parent_id
+            })
+            record.parentCategory = parentCategory
+        }
+        // res.send("OK")
+        // console.log(record)
+        res.render("admin/pages/article-category/detail.pug", {
+            pageTitle: record.title,
+            record: record
+        })
+    } catch {
+        req.flash("error", "Đường dẫn không tồn tại!")
+        res.redirect(`${systemConfig.prefixAdmin}/article-category`)
     }
-    // res.send("OK")
-    // console.log(record)
-    res.render("admin/pages/artical-category/detail.pug", {
-        pageTitle: record.title,
-        record: record
-    })
 }
 
-// [DELETE] /admin/artical-category/deleted/:id
+// [DELETE] /admin/article-category/deleted/:id
 module.exports.delete = async (req, res) => {
     const id = req.params.id
-    await ArticalCategory.updateOne({
+    await ArticleCategory.updateOne({
         _id: id
     }, {
         deleted: true,
@@ -143,10 +148,10 @@ module.exports.delete = async (req, res) => {
         }
     })
     req.flash("success", "Xóa danh mục bài viết thành công!")
-    res.redirect(`${systemConfig.prefixAdmin}/artical-category`)
+    res.redirect(`${systemConfig.prefixAdmin}/article-category`)
 }
 
-// [PATCH] /admin/artical-category/change-multi
+// [PATCH] /admin/article-category/change-multi
 module.exports.changeMulti = async (req, res) => {
     const type = req.body.type
     const ids = req.body.ids.split(', ')
@@ -156,7 +161,7 @@ module.exports.changeMulti = async (req, res) => {
     }
     switch (type) {
         case "active":
-            await ArticalCategory.updateMany({
+            await ArticleCategory.updateMany({
                 _id: {
                     $in: ids
                 }
@@ -169,7 +174,7 @@ module.exports.changeMulti = async (req, res) => {
             req.flash("success", `Cập nhật trạng thái thành công cho ${ids.length} danh mục`)
             break
         case "inactive":
-            await ArticalCategory.updateMany({
+            await ArticleCategory.updateMany({
                 _id: {
                     $in: ids
                 }
@@ -182,7 +187,7 @@ module.exports.changeMulti = async (req, res) => {
             req.flash("success", `Cập nhật trạng thái thành công cho ${ids.length} danh mục`)
             break
         case "delete-all":
-            await ArticalCategory.updateMany({
+            await ArticleCategory.updateMany({
                 _id: {
                     $in: ids
                 }
@@ -203,7 +208,7 @@ module.exports.changeMulti = async (req, res) => {
     res.redirect("back")
 }
 
-// [PATCH] /admin/artical-category/change-status/:id
+// [PATCH] /admin/article-category/change-status/:id
 module.exports.changeStatus = async (req, res) => {
     const id = req.params.id
     const status = req.params.status
@@ -212,7 +217,7 @@ module.exports.changeStatus = async (req, res) => {
         account_id: res.locals.user.id,
         updatedAt: new Date()
     }
-    await ArticalCategory.updateOne({
+    await ArticleCategory.updateOne({
         _id: id
     }, {
         status: status,

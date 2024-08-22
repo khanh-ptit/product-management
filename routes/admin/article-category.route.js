@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const controller = require('../../controllers/admin/artical-category.controller')
-const validate = require('../../validates/admin/artical-category.validate')
+const controller = require('../../controllers/admin/article-category.controller')
+const validate = require('../../validates/admin/article-category.validate')
 
 router.get('/', controller.index)
 

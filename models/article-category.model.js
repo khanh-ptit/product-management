@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const slug = require('mongoose-slug-updater')
 mongoose.plugin(slug)
 
-const articalCategorySchema = new mongoose.Schema({
+const articleCategorySchema = new mongoose.Schema({
     title: String,
     parent_id: {
         type: String,
@@ -36,6 +36,6 @@ const articalCategorySchema = new mongoose.Schema({
     }
 })
 
-const ArticalCategory = mongoose.model('ArticalCategory', articalCategorySchema, "artical-category")
+const ArticleCategory = mongoose.model('ArticleCategory', articleCategorySchema, "article-category")
 
-module.exports = ArticalCategory
+module.exports = ArticleCategory

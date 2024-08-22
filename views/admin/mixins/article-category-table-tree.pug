@@ -46,20 +46,20 @@ mixin table-tree(items, level = 1)
                         action=''
                         method="POST"
                         form-change-status
-                        data-path=`${prefixAdmin}/artical-category/change-status`
+                        data-path=`${prefixAdmin}/article-category/change-status`
                     )
 
             td
                 a(
-                    href=`${prefixAdmin}/artical-category/detail/${item.id}`
+                    href=`${prefixAdmin}/article-category/detail/${item.id}`
                     class="btn btn-secondary btn-sm"
                 ) Chi tiết
-                if (role.permissions.includes('artical-category_edit'))
+                if (role.permissions.includes('article-category_edit'))
                 a(
-                    href=`${prefixAdmin}/artical-category/edit/${item.id}`
+                    href=`${prefixAdmin}/article-category/edit/${item.id}`
                     class="btn btn-warning btn-sm ml-1"
                 ) Sửa
-                if (role.permissions.includes('artical-category_delete'))
+                if (role.permissions.includes('article-category_delete'))
                 button(
                     class="btn btn-danger btn-sm ml-1"
                     button-delete 
@@ -69,7 +69,7 @@ mixin table-tree(items, level = 1)
                     form-delete-item
                     action=''
                     method="POST"
-                    data-path=`${prefixAdmin}/artical-category/delete`
+                    data-path=`${prefixAdmin}/article-category/delete`
                 )
             if (item.createdBy)
                 td 

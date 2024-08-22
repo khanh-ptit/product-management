@@ -3,7 +3,7 @@ include ../../mixins/alert.pug
 include ../../mixins/filterStatus.pug
 include ../../mixins/formSearch.pug
 include ../../mixins/formChangeMulti.pug
-include ../../mixins/artical-category-table-tree.pug
+include ../../mixins/article-category-table-tree.pug
 include ../../mixins/moment.pug
 
 block main 
@@ -26,10 +26,10 @@ block main
         .card-body 
             .row 
                 .col-8 
-                    +form-change-multi(`${prefixAdmin}/artical-category/change-multi?_method=PATCH`)
+                    +form-change-multi(`${prefixAdmin}/article-category/change-multi?_method=PATCH`)
                 .col-4
                     a(
-                        href=`${prefixAdmin}/artical-category/create`
+                        href=`${prefixAdmin}/article-category/create`
                         class="btn btn-outline-success"
                     ) + Thêm mới
 
@@ -52,5 +52,5 @@ block main
                         th Cập nhật bởi
                 tbody 
                     +table-tree(records)
-    script(src="/admin/js/artical-category.js") 
+    script(src="/admin/js/article-category.js") 
                     
