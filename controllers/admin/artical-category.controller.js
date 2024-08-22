@@ -202,3 +202,24 @@ module.exports.changeMulti = async (req, res) => {
 
     res.redirect("back")
 }
+
+// [PATCH] /admin/artical-category/change-status/:id
+module.exports.changeStatus = async (req, res) => {
+    const id = req.params.id
+    const status = req.params.status
+    // console.log(id, status)
+    const updatedBy = {
+        account_id: res.locals.user.id,
+        updatedAt: new Date()
+    }
+    await ArticalCategory.updateOne({
+        _id: id
+    }, {
+        status: status,
+        $push: {
+            updatedBy: updatedBy
+        }
+    })
+    req.flash("success", `Cập nhật trạng thái thành công cho sản phẩm!`)
+    res.redirect("back")
+}

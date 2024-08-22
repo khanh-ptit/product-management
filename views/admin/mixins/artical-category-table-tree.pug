@@ -42,6 +42,12 @@ mixin table-tree(items, level = 1)
                             data-id=item.id
                             button-change-status
                             class="badge badge-danger") Dừng hoạt động
+                    form(
+                        action=''
+                        method="POST"
+                        form-change-status
+                        data-path=`${prefixAdmin}/artical-category/change-status`
+                    )
 
             td
                 a(

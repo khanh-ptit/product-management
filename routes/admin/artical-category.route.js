@@ -20,4 +20,6 @@ router.patch('/delete/:id', controller.delete)
 
 router.patch('/change-multi', controller.changeMulti)
 
+router.patch('/change-status/:id/:status', controller.changeStatus)
+
 module.exports = router
