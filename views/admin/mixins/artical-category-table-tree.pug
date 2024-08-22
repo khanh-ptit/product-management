@@ -45,35 +45,39 @@ mixin table-tree(items, level = 1)
 
             td
                 a(
-                    href=`${prefixAdmin}/product-category/detail/${item.id}`
+                    href=`${prefixAdmin}/artical-category/detail/${item.id}`
                     class="btn btn-secondary btn-sm"
                 ) Chi tiết
-                if (role.permissions.includes('product-category_edit'))
-                    a(
-                        href=`${prefixAdmin}/product-category/edit/${item.id}`
-                        class="btn btn-warning btn-sm ml-1"
+                if (role.permissions.includes('artical-category_edit'))
+                a(
+                    href=`${prefixAdmin}/artical-category/edit/${item.id}`
+                    class="btn btn-warning btn-sm ml-1"
                 ) Sửa
-                if (role.permissions.includes('product-category_delete'))
-                    button(
-                        class="btn btn-danger btn-sm ml-1"
-                        button-delete 
-                        data-id=item.id
-                    ) Xóa
-            td 
-                each account in accounts 
+                if (role.permissions.includes('artical-category_delete'))
+                button(
+                    class="btn btn-danger btn-sm ml-1"
+                    button-delete 
+                    data-id=item.id
+                ) Xóa
+                form(
+                    form-delete-item
+                    action=''
+                    method="POST"
+                    data-path=`${prefixAdmin}/artical-category/delete`
+                )
+            if (item.createdBy)
+                td 
                     if (account.id == item.createdBy.account_id)
                         p #{account.fullName}
                         +format-dateTime(item.createdBy.createdAt)
-            td 
-                if item.updatedBy.length > 0
-                    //- p Tomcacto
-                    each account in accounts 
-                        //- p #{account.id}
-                        //- p #{item.updatedBy[item.updatedBy.length-1]}
+            if (item.updatedBy)
+                td 
+                    if item.updatedBy.length > 0
                         if (account.id == item.updatedBy[item.updatedBy.length-1].account_id)
                             p #{account.fullName}
                             +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
 
         if item.children && item.children.length > 0
             +table-tree(item.children, level + 1)
+    
             

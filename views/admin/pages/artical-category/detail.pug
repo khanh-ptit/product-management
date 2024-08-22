@@ -1,0 +1,22 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1.mb-3 #{record.title}
+
+    if (record.parent_id) 
+        div(class="mb-3") <b>Danh mục cha: </b> #{record.parentCategory.title}
+    if (record.description) 
+        div(class="mb-3") <b>Mô tả: </b> !{record.description}
+    if (record.status)
+        if record.status == "active"
+            div(class="mb-3") Trạng thái: 
+                span(class="badge badge-success") Hoạt động
+        if record.status == "inactive"
+            div(class="mb-3") Trạng thái: 
+                span(class="badge badge-danger") Dừng hoạt động
+    
+    a(
+        href=`${prefixAdmin}/artical-category/edit/${record.id}`
+        class="btn btn-warning"
+    ) Chỉnh sửa
+        

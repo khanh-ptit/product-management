@@ -1,0 +1,23 @@
+const express = require('express')
+const router = express.Router()
+
+const controller = require('../../controllers/admin/artical-category.controller')
+const validate = require('../../validates/admin/artical-category.validate')
+
+router.get('/', controller.index)
+
+router.get('/create', controller.create)
+
+router.post('/create', validate.createPost, controller.createPost)
+
+router.get('/edit/:id', controller.edit)
+
+router.patch('/edit/:id', controller.editPatch)
+
+router.get('/detail/:id', controller.detail)
+
+router.patch('/delete/:id', controller.delete)
+
+router.patch('/change-multi', controller.changeMulti)
+
+module.exports = router

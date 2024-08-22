@@ -3,8 +3,8 @@ include ../../mixins/alert.pug
 
 block main
     if (role.permissions.length > 0)
-        h1 Trang tổng quan
         +alert-success(5000)
+        h1 Trang tổng quan
         
         div #{user}
         div ---------------

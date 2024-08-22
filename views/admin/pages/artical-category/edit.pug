@@ -1,0 +1,60 @@
+extends ../../layouts/default.pug
+include ../../mixins/select-tree.pug
+
+block main 
+    h1.mb-3 Chỉnh sửa danh mục bài viết
+
+    form(
+        action=`${prefixAdmin}/artical-category/edit/${record.id}?_method=PATCH`
+        method="POST"
+    )
+        div(class="form-group")
+            label(for="title") Tiêu đề *
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                value=record.title
+            )
+        div(class="form-group")
+            label(for="parent_id") Danh mục cha
+            select(
+                name="parent_id"
+                id="parent_id"
+                class="form-control"
+            )
+                option(selected disabled) --Chọn danh mục bài viết---
+                +select-tree(treeCategories, 1, record.parent_id)
+        div(class="form-group")
+            label(for="description") Mô tả
+            textarea(
+                class="form-control textarea-mce"
+                id="description"
+                name="description"
+            ) #{record.description}
+        div(class="form-group form-check-inline form-check")
+            input(
+                type="radio"
+                class="form-check-input"
+                name="status"
+                value="active"
+                id="statusActive"
+                checked=(record.status == "active"? true : false)
+            )
+            label(for="statusActive" class="form-check-label") Hoạt động
+        div(class="form-group form-check-inline form-check")
+            input(
+                type="radio"
+                class="form-check-input"
+                name="status"
+                value="inactive"
+                id="statusInactive"
+                checked=(record.status == "inactive" ? true : false)
+            )
+            label(for="statusInactive" class="form-check-label") Dừng hoạt động
+        div(class="form-group")
+            button(
+                class="btn btn-primary"
+                type="submit"
+            ) Chỉnh sửa
