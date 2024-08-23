@@ -24,18 +24,41 @@ module.exports.index = async (req, res) => {
     }
 
     const records = await ArticleCategory.find(find)
-    const account_id = res.locals.user.id
-    console.log(account_id)
-    const account = await Account.findOne({
-        _id: account_id,
-        deleted: false
-    })
+    // Add log create and update
+    for (const record of records) {
+        const account_id = record.createdBy.account_id
+        if (record.createdBy.account_id) {
+            const account = await Account.findOne({
+                _id: account_id,
+                deleted: false
+            })
+            if (account) {
+                record.createdAccount = account
+            }
+        }
+    }
+    for (const record of records) {
+        if (record.updatedBy.length > 0) {
+            const account_id = record.updatedBy[record.updatedBy.length - 1].account_id
+            const account = await Account.findOne({
+                _id: account_id,
+                deleted: false
+            })
+            if (account) {
+                record.updatedAccount = account
+            }
+        }
+    }
+    // console.log(account_id)
+    // const account = await Account.findOne({
+    //     _id: account_id,
+    //     deleted: false
+    // })
 
     const treeRecords = treeHelper.tree(records)
     res.render("admin/pages/article-category/index", {
         pageTitle: "Danh mục bài viết",
         records: treeRecords,
-        account: account,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword
     })

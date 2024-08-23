@@ -20,10 +20,10 @@
             if (role.permissions.includes('accounts_view'))
                 li
                     a(href=`${prefixAdmin}/accounts`) Danh sách tài khoản
-            
-            li
-                a(href=`${prefixAdmin}/article-category`) Danh mục bài viết
-
-            li 
-                a(href=`${prefixAdmin}/articles`) Danh sách bài viết
+            if (role.permissions.includes('article-category_view'))
+                li
+                    a(href=`${prefixAdmin}/article-category`) Danh mục bài viết
+            if (role.permissions.includes('articles_view'))
+                li 
+                    a(href=`${prefixAdmin}/articles`) Danh sách bài viết
 

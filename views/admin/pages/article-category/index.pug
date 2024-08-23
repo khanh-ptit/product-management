@@ -7,50 +7,55 @@ include ../../mixins/article-category-table-tree.pug
 include ../../mixins/moment.pug
 
 block main 
-    +alert-success(5000)
-    +alert-error(5000)
-    h1 Danh mục bài viết
-    //- div #{records}
-    
-    .card.mb-3
-        .card-header Bộ lọc và tìm kiếm
-        .card-body 
-            .row 
-                .col-6
-                    +filter-status(filterStatus)
-                .col-6 
-                    +form-search()
+    if role.permissions.includes('article-category_view')
+        +alert-success(5000)
+        +alert-error(5000)
+        h1 Danh mục bài viết
+        //- div #{records}
+        
+        .card.mb-3
+            .card-header Bộ lọc và tìm kiếm
+            .card-body 
+                .row 
+                    .col-6
+                        +filter-status(filterStatus)
+                    .col-6 
+                        +form-search()
 
-    .card.mb-3 
-        .card-header Danh sách 
-        .card-body 
-            .row 
-                .col-8 
-                    +form-change-multi(`${prefixAdmin}/article-category/change-multi?_method=PATCH`)
-                .col-4
-                    a(
-                        href=`${prefixAdmin}/article-category/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
+        if (role.permissions.includes('article-category_edit') || role.permissions.includes('article-category_create'))
+            .card.mb-3 
+                .card-header Danh sách 
+                .card-body 
+                    .row 
+                        .col-8 
+                            if role.permissions.includes('article-category_edit')
+                                +form-change-multi(`${prefixAdmin}/article-category/change-multi?_method=PATCH`)
+                        .col-4
+                            if role.permissions.includes('article-category_create')
+                                a(
+                                    href=`${prefixAdmin}/article-category/create`
+                                    class="btn btn-outline-success"
+                                ) + Thêm mới
 
-    .card.mb-3 
-        .card-header Danh mục bài viết
-        .card-body 
-            table(
-                class="table table-hover table-sm"
-                checkbox-multi
-            )
-                thead
-                    tr
-                        th 
-                            input(type="checkbox" name="checkall")
-                        th STT
-                        th Tiêu đề
-                        th Trạng thái
-                        th Hành động
-                        th Người tạo
-                        th Cập nhật bởi
-                tbody 
-                    +table-tree(records)
-    script(src="/admin/js/article-category.js") 
-                    
+        .card.mb-3 
+            .card-header Danh mục bài viết
+            .card-body 
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                )
+                    thead
+                        tr
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT
+                            th Tiêu đề
+                            th Trạng thái
+                            th Hành động
+                            th Người tạo
+                            th Cập nhật bởi
+                    tbody 
+                        +table-tree(records)
+        script(src="/admin/js/article-category.js") 
+    else 
+        h1 Bạn không có quyền xem danh mục bài viết

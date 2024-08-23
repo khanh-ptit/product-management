@@ -26,45 +26,56 @@ mixin table-tree(items, level = 1)
                         min="1"
                         name="position"
                     )
-            if (item.status)
-                td
-                    if (item.status == "active")
-                        a(
-                            href="javascript:;" 
-                            data-status="active"
-                            data-id=item.id
-                            button-change-status
-                            class="badge badge-success") Hoạt động
-                    else 
-                        a(
-                            href="javascript:;"
-                            data-status="inactive"
-                            data-id=item.id
-                            button-change-status
-                            class="badge badge-danger") Dừng hoạt động
-                    form(
-                        action=''
-                        method="POST"
-                        form-change-status
-                        data-path=`${prefixAdmin}/article-category/change-status`
-                    )
-
+            if role.permissions.includes('artical-category_edit')
+                if (item.status)
+                    td
+                        if (item.status == "active")
+                            a(
+                                href="javascript:;" 
+                                data-status="active"
+                                data-id=item.id
+                                button-change-status
+                                class="badge badge-success") Hoạt động
+                        else 
+                            a(
+                                href="javascript:;"
+                                data-status="inactive"
+                                data-id=item.id
+                                button-change-status
+                                class="badge badge-danger") Dừng hoạt động
+                        form(
+                            action=''
+                            method="POST"
+                            form-change-status
+                            data-path=`${prefixAdmin}/article-category/change-status`
+                        )
+            else
+                if (item.status)
+                    td  
+                        if (item.status == "active")
+                            span(
+                                class="badge badge-success"
+                            ) Hoạt động
+                        else 
+                            span(
+                                class="badge badge-danger"
+                            ) Dừng hoạt động
             td
                 a(
                     href=`${prefixAdmin}/article-category/detail/${item.id}`
                     class="btn btn-secondary btn-sm"
                 ) Chi tiết
                 if (role.permissions.includes('article-category_edit'))
-                a(
-                    href=`${prefixAdmin}/article-category/edit/${item.id}`
-                    class="btn btn-warning btn-sm ml-1"
-                ) Sửa
+                    a(
+                        href=`${prefixAdmin}/article-category/edit/${item.id}`
+                        class="btn btn-warning btn-sm ml-1"
+                    ) Sửa
                 if (role.permissions.includes('article-category_delete'))
-                button(
-                    class="btn btn-danger btn-sm ml-1"
-                    button-delete 
-                    data-id=item.id
-                ) Xóa
+                    button(
+                        class="btn btn-danger btn-sm ml-1"
+                        button-delete 
+                        data-id=item.id
+                    ) Xóa
                 form(
                     form-delete-item
                     action=''
@@ -73,15 +84,13 @@ mixin table-tree(items, level = 1)
                 )
             if (item.createdBy)
                 td 
-                    if (account.id == item.createdBy.account_id)
-                        p #{account.fullName}
-                        +format-dateTime(item.createdBy.createdAt)
-            if (item.updatedBy)
-                td 
-                    if item.updatedBy.length > 0
-                        if (account.id == item.updatedBy[item.updatedBy.length-1].account_id)
-                            p #{account.fullName}
-                            +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
+                    p #{item.createdAccount.fullName}
+                    +format-dateTime(item.createdBy.createdAt)
+            if (item.updatedBy.length > 0)
+                td
+                    p #{item.updatedAccount.fullName} 
+                    +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
+                   
 
         if item.children && item.children.length > 0
             +table-tree(item.children, level + 1)

@@ -1,0 +1,70 @@
+extends ../../layouts/default.pug
+include ../../mixins/select-tree.pug
+include ../../mixins/alert.pug
+
+block main 
+    if (role.permissions.includes('articles_edit'))
+        +alert-success(5000)
+        +alert-error(5000)
+        h1.mb-3 Chỉnh sửa bài viết
+
+        form(
+            action=`${prefixAdmin}/articles/edit/${record.id}?_method=PATCH`
+            method="POST"
+        )
+            div(class="form-group")
+                label(for="title") Tiêu đề *
+                input(
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    value=record.title
+                )
+            div(class="form-group")
+                label(for="article_category_id") Danh mục
+                select(
+                    id="article_category_id"
+                    name="article_category_id"
+                    class="form-control"
+                )
+                    option(disabled selected) --Chọn danh mục--
+                        if (categories)
+                            +select-tree(categories, 1, record.articleCategory.id)
+
+            div(class="form-group")
+                label(for="description") Nội dung 
+                textarea(
+                    class="form-control textarea-mce"
+                    id="description"
+                    name="description"
+                ) #{record.description}
+            
+            div(class="form-check form-check-inline form-group")
+                input(
+                    type="radio"
+                    name="status"
+                    id="statusActive"
+                    value="active"
+                    class="form-check-input"
+                    checked=(record.status == "active" ? true : false)
+                )
+                label(for="statusActive" class="form-check-label") Hoạt động 
+            div(class="form-check form-check-inline form-group")
+                input(
+                    type="radio"
+                    name="status"
+                    id="statusInactive"
+                    value="inactive"
+                    class="form-check-input"
+                    checked=(record.status == "inactive" ? true : false)
+                )
+                label(for="statusInactive" class="form-check-label") Dừng hoạt động 
+            
+            div(class="form-group")
+                button(
+                    class="btn btn-primary"
+                    type="submit"
+                ) Cập nhật
+    else 
+        h1 Bạn không có quyền chỉnh sửa bài viết

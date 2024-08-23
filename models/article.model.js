@@ -4,9 +4,12 @@ mongoose.plugin(slug)
 
 const articleSchema = new mongoose.Schema({
     title: String,
-    category_id: String,
+    article_category_id: String,
     description: String,
-    status: String,
+    status: {
+        type: String,
+        default: "active"
+    },
     createdBy: {
         account_id: String,
         createdAt: {

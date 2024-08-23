@@ -1,4 +1,137 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/formChangeMulti.pug
+include ../../mixins/filterStatus.pug
+include ../../mixins/formSearch.pug
+include ../../mixins/moment.pug
+include ../../mixins/sort.pug
 
 block main 
-    h1.mb-3 Danh sách bài viết
+    if (role.permissions.includes('articles_view'))
+        +alert-success(5000)
+        +alert-error(5000)
+        h1.mb-3 Danh sách bài viết
+    
+        .card.mb-3 
+            .card-header Bộ lọc và tìm kiếm 
+            .card-body 
+                .row 
+                    .col-6 
+                        +filter-status(filterStatus)
+                    .col-6 
+                        +form-search()
+
+        if (role.permissions.includes('articles_create') || role.permissions.includes('articles_edit'))
+            .card.mb-3 
+                .card-header Danh sách 
+                .card-body
+                    .row 
+                        .col-8
+                            if (role.permissions.includes('articles_edit'))
+                                +form-change-multi(`${prefixAdmin}/articles/change-multi?_method=PATCH`)
+                        .col-4
+                            if (role.permissions.includes('articles_create'))
+                                a(
+                                    href=`${prefixAdmin}/articles/create`
+                                    class="btn btn-outline-success"
+                                ) + Thêm mới
+        .card.mb-3 
+            .card-header Danh sách bài viết 
+            .card-body 
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                )
+                    thead 
+                        tr 
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT 
+                            th Tiêu đề
+                            th Trạng thái 
+                            th Hành động
+                            th Người tạo 
+                            th Cập nhật bởi
+                    tbody 
+                        each item, index in records
+                            tr 
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )        
+                                td #{index + 1}
+                                td #{item.title}
+                                td 
+                                    if (role.permissions.includes('articles_edit'))
+                                        if (item.status == "active")
+                                            a(
+                                                href="javascript:;"
+                                                button-change-status
+                                                status="active"
+                                                data-id=item.id
+                                                class="badge badge-success"
+                                            ) Hoạt động
+                                        else 
+                                            a(
+                                                href="javascript:;"
+                                                button-change-status
+                                                status="inactive"
+                                                data-id=item.id
+                                                class="badge badge-danger"
+                                            ) Dừng hoạt động
+                                    else
+                                        if (item.status == "active")
+                                            span(                                               
+                                                status="active"
+                                                data-id=item.id
+                                                class="badge badge-success"
+                                            ) Hoạt động
+                                        else 
+                                            span(                                                
+                                                status="inactive"
+                                                data-id=item.id
+                                                class="badge badge-danger"
+                                            ) Dừng hoạt động
+                                    form(
+                                        form-change-status 
+                                        method="POST"
+                                        data-path=`${prefixAdmin}/articles/change-status`
+                                        action=""
+                                    )
+                                td 
+                                    a(
+                                        href=`${prefixAdmin}/articles/detail/${item.id}`
+                                        class="btn btn-secondary btn-sm") Chi tiết
+                                    if (role.permissions.includes('articles_edit'))
+                                        a(
+                                            href=`${prefixAdmin}/articles/edit/${item.id}`
+                                            class="btn btn-warning btn-sm ml-1") Sửa
+                                    if (role.permissions.includes('articles_delete'))
+                                        button(
+                                            data-id=item.id
+                                            button-delete-item
+                                            class="btn btn-danger btn-sm ml-1"
+                                        ) Xóa
+                                    form(
+                                        form-delete-item
+                                        action=""
+                                        method="POST"
+                                        data-path=`${prefixAdmin}/articles/delete`
+                                    )
+                                td 
+                                    if (item.createdBy.account_id)
+                                        p #{item.createdAccount.fullName}
+                                        +format-dateTime(item.createdBy.createdAt)
+                                td 
+                                    if (item.updatedBy.length > 0)
+                                        p #{item.updatedAccount.fullName}
+                                        +format-dateTime(item.updatedBy[item.updatedBy.length-1].updatedAt)
+
+        script(src="/admin/js/article.js") 
+    else 
+        h1 Bạn không có quyền xem danh sách bài viết
+                
+
+    

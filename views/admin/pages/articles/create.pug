@@ -2,71 +2,69 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
-block main
-    if role.permissions.includes('article-category_create')
-        h1.mb-3 Tạo danh mục bài viết
+block main 
+    if role.permissions.includes('articles_create')
+        +alert-success(5000)
         +alert-error(5000)
+        h1.mb-3 Thêm mới bài viết
 
         form(
-            action=`${prefixAdmin}/article-category/create`
+            action=`${prefixAdmin}/articles/create`
             method="POST"
-        )
+        ) 
             div(class="form-group")
                 label(for="title") Tiêu đề *
                 input(
-                    class="form-control"
                     type="text"
-                    name="title"
-                    id="title"
-                )
-            div(class="form-group")
-                label(for="parent_id") Danh mục cha
-                select(
-                    name="parent_id"
-                    id="parent_id"
                     class="form-control"
+                    id="title"
+                    name="title"
                 )
-                    option(value="" disabled selected) -- Chọn danh mục cha --
-                        if (records)
-                            +select-tree(records)
-                //- input(
-                //-     class="form-control"
-                //-     type="text"
-                //-     name="parent_id"
-                //-     id="parent_id"
-                //- )
             div(class="form-group")
-                label(for="description") Mô tả *
+                label(for="article_category_id") Danh mục *
+                //- input(
+                //-     type="text"
+                //-     class="form-control"
+                //-     id="article_category_id"
+                //-     name="article_category_id"
+                //- )
+                select(
+                    class="form-control"
+                    name="article_category_id"
+                    id="article_category_id"
+                )
+                    option(selected disabled) --Chọn danh mục--
+                        +select-tree(categories)
+            div(class="form-group")
+                label(for="description") Nội dung *
                 textarea(
                     class="form-control textarea-mce"
-                    name="description"
                     id="description"
-                    rows="5"
+                    name="description"
                 )
-            div(class="form-check form-check-inline form-group")
+            div(class="form-check-inline form-group form-check")
                 input(
                     type="radio"
                     name="status"
                     value="active"
                     id="statusActive"
                     class="form-check-input"
-                    checked
-                ) 
+                )
                 label(for="statusActive" class="form-check-label") Hoạt động
-            div(class="form-check form-check-inline form-group")
+            div(class="form-check-inline form-group form-check")
                 input(
                     type="radio"
                     name="status"
                     value="inactive"
                     id="statusInactive"
                     class="form-check-input"
-                ) 
+                )
                 label(for="statusInactive" class="form-check-label") Dừng hoạt động
-
-            div(class="form-group") 
+            div(class="form-group")
                 button(
-                    class="btn btn-primary"
                     type="submit"
+                    class="btn btn-primary"
                 ) Tạo mới
     else 
-        h1 Bạn không có quyền tạo danh mục bài viết
+        h1 Bạn không có quyền thêm mới bài viết
+

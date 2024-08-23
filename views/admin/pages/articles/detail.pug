@@ -1,0 +1,25 @@
+extends ../../layouts/default.pug
+
+block main 
+    h1.mb-3 #{record.title}
+
+    if (record.description)
+        div(class="mb-5") <b>Mô tả: </b> !{record.description}
+    
+    if (record.status == "active") 
+        div(class="mb-3") <b>Trạng thái: </b> 
+            span(
+                class="badge badge-success"
+            ) Hoạt động
+    else 
+        div(class="mb-3") <b>Trạng thái: </b> 
+            span(
+                class="badge badge-danger"
+            ) Dừng hoạt động
+
+    a(
+        class="btn btn-warning"
+        href=`${prefixAdmin}/articles/edit/${record.id}`
+    ) Chỉnh sửa
+        
+    
