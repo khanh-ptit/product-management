@@ -24,7 +24,7 @@ block main
     .card.mb-3
         .card-header Danh sách
             .card-body
-                +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`, 'deleted-products')
 
     .card.mb-3 
         .card-header Danh sách sản phẩm 
@@ -67,14 +67,12 @@ block main
                                             href="javascript:;" 
                                             data-status="active"
                                             data-id=item.id
-                                            button-change-status
                                             class="badge badge-success") Hoạt động
                                     else 
                                         a(
                                             href="javascript:;"
                                             data-status="inactive"
                                             data-id=item.id
-                                            button-change-status
                                             class="badge badge-danger") Dừng hoạt động
 
                                 td

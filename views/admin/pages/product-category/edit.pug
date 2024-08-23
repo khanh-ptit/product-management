@@ -6,7 +6,7 @@ block main
     if (role.permissions.includes('product-category_edit'))
         +alert-error(5000)
         +alert-success(5000)
-        h1(class="mb-4") Chỉnh sửa sản phẩm
+        h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
 
         form(
             action=`${prefixAdmin}/product-category/edit/${record._id}?_method=PATCH`

@@ -26,40 +26,38 @@ mixin table-tree(items, level = 1)
                         min="1"
                         name="position"
                     )
-            if role.permissions.includes('artical-category_edit')
-                if (item.status)
-                    td
-                        if (item.status == "active")
-                            a(
-                                href="javascript:;" 
-                                data-status="active"
-                                data-id=item.id
-                                button-change-status
-                                class="badge badge-success") Hoạt động
-                        else 
-                            a(
-                                href="javascript:;"
-                                data-status="inactive"
-                                data-id=item.id
-                                button-change-status
-                                class="badge badge-danger") Dừng hoạt động
-                        form(
-                            action=''
-                            method="POST"
-                            form-change-status
-                            data-path=`${prefixAdmin}/article-category/change-status`
-                        )
+            if role.permissions.includes('article-category_edit')
+                td
+                    if (item.status == "active")
+                        a(
+                            href="javascript:;" 
+                            data-status="active"
+                            data-id=item.id
+                            button-change-status
+                            class="badge badge-success") Hoạt động
+                    else 
+                        a(
+                            href="javascript:;"
+                            data-status="inactive"
+                            data-id=item.id
+                            button-change-status
+                            class="badge badge-danger") Dừng hoạt động
+                    form(
+                        action=''
+                        method="POST"
+                        form-change-status
+                        data-path=`${prefixAdmin}/article-category/change-status`
+                    )
             else
-                if (item.status)
-                    td  
-                        if (item.status == "active")
-                            span(
-                                class="badge badge-success"
-                            ) Hoạt động
-                        else 
-                            span(
-                                class="badge badge-danger"
-                            ) Dừng hoạt động
+                td  
+                    if (item.status == "active")
+                        span(
+                            class="badge badge-success"
+                        ) Hoạt động
+                    else 
+                        span(
+                            class="badge badge-danger"
+                        ) Dừng hoạt động
             td
                 a(
                     href=`${prefixAdmin}/article-category/detail/${item.id}`

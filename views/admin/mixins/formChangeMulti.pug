@@ -1,4 +1,4 @@
-mixin form-change-multi(path)
+mixin form-change-multi(path, prefix)
     form(
         action=path
         method="POST"
@@ -11,11 +11,15 @@ mixin form-change-multi(path)
                     class="form-control"
                 )
                     option(disabled selected) --Chọn hành động--
-                    option(value="active") Hoạt động
-                    option(value="inactive") Dừng hoạt động
-                    option(value="delete-all") Xóa tất cả
-                    option(value="change-position") Thay đổi vị trí
-                    option(value="restore-all") Khôi phục tất cả
+                    if role.permissions.includes(`${prefix}_edit`)
+                        option(value="active") Hoạt động
+                        option(value="inactive") Dừng hoạt động
+                    if (role.permissions.some(role => role.endsWith(`${prefix}_delete`)))
+                        option(value="delete-all") Xóa tất cả
+                    if prefix == "products" || prefix == "product-category"
+                        option(value="change-position") Thay đổi vị trí
+                    if prefix == "deleted-products"
+                        option(value="restore-all") Khôi phục tất cả
             .form-group
                 input(
                     type="text" 

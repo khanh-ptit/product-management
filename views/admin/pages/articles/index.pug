@@ -21,14 +21,14 @@ block main
                     .col-6 
                         +form-search()
 
-        if (role.permissions.includes('articles_create') || role.permissions.includes('articles_edit'))
+        if (role.permissions.includes('articles_create') || role.permissions.includes('articles_edit') || role.permissions.includes('articles_delete'))
             .card.mb-3 
                 .card-header Danh sách 
                 .card-body
                     .row 
                         .col-8
-                            if (role.permissions.includes('articles_edit'))
-                                +form-change-multi(`${prefixAdmin}/articles/change-multi?_method=PATCH`)
+                            if (role.permissions.includes('articles_edit') || role.permissions.includes('articles_delete'))
+                                +form-change-multi(`${prefixAdmin}/articles/change-multi?_method=PATCH`, 'articles')
                         .col-4
                             if (role.permissions.includes('articles_create'))
                                 a(

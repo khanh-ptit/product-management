@@ -30,7 +30,7 @@ block main
                         .row
                             if (role.permissions.includes('products_edit'))
                                 .col-8
-                                    +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+                                    +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`, 'products')
                             if (role.permissions.includes('products_create'))
                                 .col-4 
                                     a(

@@ -78,12 +78,12 @@ module.exports.createPost = async (req, res) => {
     const account_id = res.locals.user.id
     req.body.createdBy = {
         account_id: account_id,
-        craetedAt: new Date()
+        createdAt: new Date()
     }
     const article = new Article(req.body)
     article.save()
     req.flash("success", "Thêm thành công bài viết!")
-    res.redirect(`${systemConfig.prefixAdmin}/articles`)
+    res.redirect("back")
 }
 
 // [GET] admin/articles/detail/:id

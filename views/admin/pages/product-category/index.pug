@@ -28,7 +28,7 @@ block main
                         .row
                             if (role.permissions.includes('product-category_edit'))
                                 .col-8
-                                    +form-change-multi(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
+                                    +form-change-multi(`${prefixAdmin}/product-category/change-multi?_method=PATCH`, 'product-category')
                             
                             if (role.permissions.includes('product-category_create'))
                                 .col-4 

@@ -22,14 +22,14 @@ block main
                     .col-6 
                         +form-search()
 
-        if (role.permissions.includes('article-category_edit') || role.permissions.includes('article-category_create'))
+        if (role.permissions.includes('article-category_edit') || role.permissions.includes('article-category_create') || role.permissions.includes('article-category_delete'))
             .card.mb-3 
                 .card-header Danh sách 
                 .card-body 
                     .row 
                         .col-8 
-                            if role.permissions.includes('article-category_edit')
-                                +form-change-multi(`${prefixAdmin}/article-category/change-multi?_method=PATCH`)
+                            if role.permissions.includes('article-category_edit') || role.permissions.includes('article-category_delete')
+                                +form-change-multi(`${prefixAdmin}/article-category/change-multi?_method=PATCH`, 'article-category')
                         .col-4
                             if role.permissions.includes('article-category_create')
                                 a(

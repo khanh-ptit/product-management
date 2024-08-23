@@ -184,7 +184,7 @@ module.exports.editPatch = async (req, res) => {
     // console.log(req.body)
     const permissions = res.locals.role.permissions
 
-    if (permissions.include("product-category_create")) {
+    if (permissions.includes("product-category_create")) {
         req.body.position = parseInt(req.body.position)
         try {
             const updatedBy = {

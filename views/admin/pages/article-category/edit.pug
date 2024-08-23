@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/select-tree.pug
 
 block main 
-    if role.permissions.includes('article-category')
+    if role.permissions.includes('article-category_edit')
         h1.mb-3 Chỉnh sửa danh mục bài viết
         form(
             action=`${prefixAdmin}/article-category/edit/${record.id}?_method=PATCH`
