@@ -13,3 +13,13 @@ if (showAlert) {
     }, time);
 };
 // End show success status
+
+// Go back button
+const btnGoBack = document.querySelectorAll("[button-go-back]")
+if (btnGoBack) {
+    btnGoBack.forEach(button => {
+        button.addEventListener("click", () => {
+            history.back()
+        })
+    })
+}

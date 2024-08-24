@@ -15,6 +15,17 @@ module.exports.cartId = async (req, res, next) => {
         // res.co
     } else {
         // console.log(req.cookies.cartId)
+        const cart = await Cart.findOne({
+            _id: req.cookies.cartId
+        })
+        let totalQuantity = 0
+        cart.products.forEach(product => {
+            totalQuantity += product.quantity
+        })
+        // console.log(totalQuantity)
+        cart.totalQuantity = totalQuantity
+        res.locals.miniCart = cart
+        // console.log(cart)
     }
     next()
 }

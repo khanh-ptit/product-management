@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 include ../../mixins/moment.pug
+include ../../mixins/formSearch.pug
 
 block main 
     if (role.permissions.includes('roles_view'))
@@ -14,15 +15,19 @@ block main
             .card-body 
                 if (role.permissions.includes('roles_create'))
                     .row 
-                        .col-8 
-                        .col-4.text-right 
+                        .col-6
+                            +form-search(keyword)
+                        .col-2
+                        .col-4
                             a(
                                 href=`${prefixAdmin}/roles/create`
                                 class="btn btn-outline-success"
                             ) + Thêm mới
-
+        .card.mb-3 
+            .card-header Danh sách 
+            .card-body
                 table(
-                    class="table table-hover table-sm mt-3"
+                    class="table table-hover table-sm"
                 )
                     thead 
                         tr 

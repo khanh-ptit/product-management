@@ -147,7 +147,7 @@ module.exports.detail = async (req, res) => {
     }
 }
 
-// [DELETE] /admin/account/delete/:id
+// [DELETE] /admin/accounts/delete/:id
 module.exports.delete = async (req, res) => {
     const id = req.params.id
     await Account.updateOne({
@@ -157,4 +157,50 @@ module.exports.delete = async (req, res) => {
     })
     req.flash("success", "Xoá thành công tài khoản!")
     res.redirect(`${systemConfig.prefixAdmin}/accounts`)
+}
+
+// [PATCH] /admin/accounts/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type
+    const ids = req.body.ids.split(", ")
+    switch (type) {
+        case "active":
+            // console.log(type)
+            await Account.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                status: "active"
+            })
+            req.flash("success", `Cập nhật trạng thái thành công cho ${ids.length} tài khoản`)
+            res.redirect("back")
+            break
+        case "inactive":
+            // console.log(type)
+            await Account.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                status: "inactive"
+            })
+            req.flash("success", `Cập nhật trạng thái thành công cho ${ids.length} tài khoản`)
+            res.redirect("back")
+            break
+        case "delete-all":
+            await Account.updateMany({
+                _id: {
+                    $in: ids
+                }
+            }, {
+                deleted: true
+            })
+            req.flash("success", `Xóa thành công ${ids.length} tài khoản`)
+            res.redirect("back")
+            break
+        default:
+            break
+    }
+    // res.send("OK")
 }

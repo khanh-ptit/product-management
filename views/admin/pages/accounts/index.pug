@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/formChangeMulti.pug
 
 block main
     if (role.permissions.includes('accounts_view'))
@@ -9,11 +10,12 @@ block main
 
         if (role.permissions.includes('accounts_create'))
             .card.mb-3 
-                .card-header 
+                .card-header Danh sách 
                 .card-body 
                     .row 
                         .col-8 
-                        .col-4.text-right 
+                            +form-change-multi(`${prefixAdmin}/accounts/change-multi?_method=PATCH`, 'accounts')
+                        .col-4
                             a(
                                 href=`${prefixAdmin}/accounts/create`
                                 class="btn btn-outline-success"

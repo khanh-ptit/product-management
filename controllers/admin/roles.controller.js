@@ -7,6 +7,11 @@ module.exports.index = async (req, res) => {
     let find = {
         deleted: false
     }
+    const keyword = req.query.keyword
+    if (keyword) {
+        const regex = new RegExp(keyword, "i")
+        find.title = regex
+    }
     const records = await Role.find(find)
     const accounts = await Account.find({
         deleted: false
@@ -14,7 +19,8 @@ module.exports.index = async (req, res) => {
     res.render("admin/pages/roles/index.pug", {
         pageTitle: "Nhóm quyền",
         records: records,
-        accounts: accounts
+        accounts: accounts,
+        keyword: keyword
     })
 }
 
