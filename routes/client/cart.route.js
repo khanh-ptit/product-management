@@ -7,6 +7,8 @@ router.post('/add/:productId', controller.addPost)
 
 router.get('/delete/:productId', controller.delete)
 
+router.get('/update/:productId/:quantity', controller.updateProductQuantity)
+
 router.get('/', controller.index)
 
 module.exports = router

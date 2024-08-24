@@ -105,3 +105,20 @@ module.exports.delete = async (req, res) => {
     req.flash("success", "Đã xoá sản phẩm khỏi giỏ hàng")
     res.redirect("back")
 }
+
+// [PATCH] /cart/update/:productId/:quantity
+module.exports.updateProductQuantity = async (req, res) => {
+    const productId = req.params.productId
+    const cartId = req.cookies.cartId
+    const quantity = req.params.quantity
+    console.log(productId, quantity, cartId)
+    const cart = await Cart.findOne({
+        _id: cartId
+    })
+    console.log("------------------------")
+    const updatedProduct = cart.products.find(item => item.product_id == productId)
+    updatedProduct.quantity = quantity
+    // console.log(updatedProduct)
+    await cart.save()
+    res.redirect("back")
+}
