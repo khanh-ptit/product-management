@@ -69,3 +69,9 @@ module.exports.loginPost = async (req, res) => {
         // res.send("OK")
     }
 }
+
+// [GET] user/login
+module.exports.logout = async (req, res) => {
+    res.clearCookie("tokenUser")
+    res.redirect("back")
+}
