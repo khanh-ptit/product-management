@@ -4,11 +4,11 @@ module.exports.cartId = async (req, res, next) => {
     try {
         // console.log(req.cookies.cartId)
         if (!req.cookies.cartId) {
-            const cart = new Cart()
-            const carts = await Cart.find({})
-            if (carts.length > 5) {
+            const cartsCount = await Cart.countDocuments()
+            if (cartsCount >= 5) {
                 return
             }
+            const cart = new Cart()
             await cart.save()
 
             const expiresTime = 1000 * 86400
