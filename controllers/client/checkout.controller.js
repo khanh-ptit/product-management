@@ -74,5 +74,40 @@ module.exports.order = async (req, res) => {
 
     // console.log(products)
     console.log(objectOrder)
-    res.send("OK")
+    
+    res.redirect(`/checkout/success/${order.id}`)
+}
+
+// [GET] /checkout/order/success
+module.exports.orderSuccess = async (req, res) => {
+    // console.log(req.params.id)
+
+    const order = await Order.findOne({
+        _id: req.params.id
+    })
+
+    // console.log(order)
+    let totalOrderPrice = 0
+    for (const product of order.products) {
+        const productInfo = await Product.findOne({
+            _id: product.product_id
+        }).select("title thumbnail")      
+        product.productInfo = productInfo
+
+        product.priceNew = productHelper.getNewPriceOne(product.price, product.discountPercentage)
+        product.totalPrice = product.priceNew * product.quantity
+        // console.log(priceNew)
+        totalOrderPrice += product.totalPrice
+    }
+    order.totalOrderPrice = totalOrderPrice
+    // order.totalOrderPrice = order.products.reduce((sum, item) => {
+    //     sum += item.totalPrice
+    // }, 0)
+
+    // console.log(order)
+
+    res.render("client/pages/checkout/success.pug", {
+        pageTitle: "Đặt hàng thành công",
+        order: order
+    })
 }
