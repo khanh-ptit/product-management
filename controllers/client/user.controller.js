@@ -1,4 +1,5 @@
 const User = require("../../models/user.model")
+const Cart = require("../../models/cart.model")
 const ForgotPassword = require("../../models/forgot-password.model")
 const md5 = require("md5")
 const generateHelper = require("../../helpers/generate")
@@ -64,6 +65,15 @@ module.exports.loginPost = async (req, res) => {
             console.log("*")
             console.log(user.tokenUser)
             res.cookie("tokenUser", user.tokenUser)
+            // res.cookie("user_id", user._id)
+
+            // Lưu user_id vào collection carts
+            // console.log(user.id, req.cookies.cartId)
+            await Cart.updateOne({
+                _id: req.cookies.cartId
+            }, {
+                user_id: user.id
+            })
             res.redirect("/")
         } else {
             req.flash("error", "Email hoặc mật khẩu không đúng")
@@ -175,4 +185,12 @@ module.exports.resetPasswordPost = async (req, res) => {
     })
     req.flash("success", "Đổi mật khẩu thành công")
     res.redirect("/")
+}
+
+// [GET] /user/info
+module.exports.info = async (req, res) => {
+    
+    res.render("client/pages/user/info.pug", {
+        pageTitle: "Tài khoản"
+    })
 }

@@ -1,0 +1,19 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3 
+        .row 
+            .col-8
+                +box-head("Thông tin tài khoản")
+
+        .row   
+            .col-12
+                if (user)
+                    div(class="mb-3") <b>Họ và tên: </b> #{user.fullName}
+                    div(class="mb-3") <b>Email: </b> #{user.email}
+                    div(class="mb-3") 
+                        <b> Trạng thái: </b>
+                        span(class="badge badge-success") Hoạt động
+                
+
