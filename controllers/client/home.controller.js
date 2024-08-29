@@ -1,5 +1,6 @@
 const Product = require("../../models/product.model")
 const productHelper = require("../../helpers/product")
+const { settingGeneral } = require("../../middlewares/client/setting.midlleware")
 
 // [GET] /
 module.exports.index = async (req, res) => {
@@ -22,9 +23,10 @@ module.exports.index = async (req, res) => {
     })
     const latestProducts = productHelper.getNewPrice(latestProductsWithoutNewPrice)
     // End getting lastest products
+    // console.log(res.locals.settingGeneral)
 
     res.render("client/pages/home/index.pug", {
-        pageTitle: "Trang chủ",
+        pageTitle: res.locals.settingGeneral.websiteName,
         featuredProducts: newProducts,
         latestProducts: latestProducts
     })

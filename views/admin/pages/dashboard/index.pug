@@ -4,11 +4,70 @@ include ../../mixins/alert.pug
 block main
     if (role.permissions.length > 0)
         +alert-success(5000)
-        h1 Trang tổng quan
+        h1.mb-3 Trang tổng quan
         
-        div #{user}
-        div ---------------
-        div #{role.title}
-        div(class="role-permissions") #{role.permissions}
+        .row 
+            .col-12 
+                .card.mb-3 
+                    .card-header Thông tin tài khoản
+                    .card-body 
+                        div(class="mb-3") <b>Họ tên: </b> #{user.fullName}
+                        div(class="mb-3") <b>Email: </b> #{user.email}
+                        div(class="mb-3") <b>Số điện thoại: </b> #{user.phone}
+                        div(class="mb-3") <b>Nhóm quyền: </b> #{role.title}
+        
+        .row 
+            .col-6
+                .card.mb-4 
+                    .card-header Danh mục sản phẩm
+                    .card-body 
+                        p Số lượng: <b> #{statistic.productCategory.total} </b>
+                        p Hoạt động: <b> #{statistic.productCategory.active} </b>
+                        p Dừng hoạt động: <b> #{statistic.productCategory.inactive} </b>
+
+            .col-6
+                .card.mb-4 
+                    .card-header Sản phẩm
+                    .card-body 
+                        p Số lượng: <b> #{statistic.product.total} </b>
+                        p Hoạt động: <b> #{statistic.product.active} </b>
+                        p Dừng hoạt động: <b> #{statistic.product.inactive} </b>
+        
+        .row 
+            .col-6
+                .card.mb-4 
+                    .card-header Tài khoản admin
+                    .card-body 
+                        p Số lượng: <b> #{statistic.adminAccount.total} </b>
+                        p Hoạt động: <b> #{statistic.adminAccount.active} </b>
+                        p Dừng hoạt động: <b> #{statistic.adminAccount.inactive} </b>
+
+            .col-6
+                .card.mb-4 
+                    .card-header Tài khoản client
+                    .card-body 
+                        p Số lượng: <b> #{statistic.clientAccount.total} </b>
+                        p Hoạt động: <b> #{statistic.clientAccount.active} </b>
+                        p Dừng hoạt động: <b> #{statistic.clientAccount.inactive} </b>
+        
+        .row 
+            .col-6
+                .card.mb-4 
+                    .card-header Danh mục bài viết
+                    .card-body 
+                        p Số lượng: <b> #{statistic.articleCategory.total} </b>
+                        p Hoạt động: <b> #{statistic.articleCategory.active} </b>
+                        p Dừng hoạt động: <b> #{statistic.articleCategory.inactive} </b>
+
+            .col-6
+                .card.mb-4 
+                    .card-header Bài viết
+                    .card-body 
+                        p Số lượng: <b> #{statistic.article.total} </b>
+                        p Hoạt động: <b> #{statistic.article.active} </b>
+                        p Dừng hoạt động: <b> #{statistic.article.inactive} </b>
+
+
+        
     else 
         h1 Bạn không có quyền truy cập nào
