@@ -48,6 +48,11 @@ app.use(express.static(`${__dirname}/public`))
 
 routeClient(app)
 routeAdmin(app)
+app.get("*", (req, res) => {
+    res.render("client/pages/error/404", {
+        pageTitle: "404 Not Found"
+    })
+})
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
