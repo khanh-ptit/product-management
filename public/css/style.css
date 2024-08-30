@@ -247,3 +247,91 @@
     margin-left: 10px;
 }
 /* End Show Alert */
+
+/* Chat */
+.chat {
+    background-color: #f0f0f0; /* Light gray background */
+    border-radius: 10px;
+    overflow-y: auto;
+    padding: 15px;
+    padding-bottom: 30px;
+    width: 100%; /* Đảm bảo chat chiếm toàn bộ chiều rộng của thẻ cha */
+}
+
+.inner-body {
+    height: calc(100% - 60px); /* Adjust for input field height */
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Đặt tin nhắn ở bên trái theo chiều dọc */
+}
+  
+.inner-incoming,
+.inner-outgoing {
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    max-width: 80%; /* Giới hạn độ rộng tối đa của tin nhắn */
+    word-wrap: break-word; /* Đảm bảo từ sẽ ngắt dòng nếu quá dài */
+    display: inline-block; /* Đặt thẻ thành inline-block để chiều rộng tự điều chỉnh */
+}
+  
+.inner-incoming {
+    text-align: left;
+    align-self: flex-start; /* Đặt tin nhắn ở bên trái */
+}
+
+.inner-incoming .inner-content {
+    background-color: #8cd4de;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: left;
+    align-self: flex-start; /* Đặt tin nhắn ở bên trái */
+}
+  
+.inner-outgoing {
+    background-color: #f781b5; /* Light gray for outgoing messages */
+    text-align: right;
+    color: white;
+    align-self: flex-end; /* Đặt tin nhắn ở bên phải */
+}
+  
+.inner-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.inner-foot {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    width: 100%; /* Đảm bảo thẻ input chiếm toàn bộ chiều rộng của thẻ cha */
+}
+  
+.chat .inner-form {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Đảm bảo form chiếm toàn bộ chiều rộng của thẻ cha */
+}
+ 
+.chat .inner-form input {
+    flex: 1;
+    height: 32px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    margin-right: 10px;
+}
+
+.chat .inner-form button {
+    background-color: #f781b5;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    padding: 0 10px;
+    color: #fff;
+    cursor: pointer;
+    height: 32px;
+}
+/* End chat */
