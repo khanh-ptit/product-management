@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const path = require('path')
 const moment = require('moment')
+const http = require('http')
+const { Server } = require("socket.io")
 require("dotenv").config()
 
 const database = require("./config/database")
@@ -20,6 +22,14 @@ const port = process.env.PORT
 
 app.set("views", `${__dirname}/views`)
 app.set("view engine", "pug")
+
+// SocketIO
+const server = http.createServer(app)
+const io = new Server(server) // Kết hợp server với socket
+
+io.on('connection', (socket) => {
+    console.log('a user connected', socket.id)
+})
 
 // Flash
 app.use(cookieParser('tomcacto'));
@@ -54,6 +64,6 @@ app.get("*", (req, res) => {
     })
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Listening on port ${port}`)
 })
