@@ -290,10 +290,20 @@
 }
   
 .inner-outgoing {
-    background-color: #f781b5; /* Light gray for outgoing messages */
+    /* background-color: #f781b5; Light gray for outgoing messages */
+    text-align: right;
+    /* color: white; */
+    align-self: flex-end; /* Đặt tin nhắn ở bên phải */
+}
+
+.inner-outgoing .inner-content{
+    background-color: #f781b5; 
+    padding: 10px;
+    border-radius: 20px; 
     text-align: right;
     color: white;
-    align-self: flex-end; /* Đặt tin nhắn ở bên phải */
+    align-self: flex-end;
+    /* align-self: flex-end; Đặt tin nhắn ở bên phải */
 }
   
 .inner-name {

@@ -7,7 +7,7 @@ const chatSchema = new mongoose.Schema({
     images: Array,
     deleted: {
         type: Boolean,
-        deleted: false
+        default: false
     },
     deletedAt: Date
 }, {

@@ -5,7 +5,7 @@ module.exports.cartId = async (req, res, next) => {
         // console.log(req.cookies.cartId)
         if (!req.cookies.cartId) {
             const cartsCount = await Cart.countDocuments()
-            if (cartsCount >= 5) {
+            if (cartsCount >= 50) {
                 return
             }
             const cart = new Cart()
