@@ -9,7 +9,7 @@ block main
         
         .row 
             .col-12 
-                .chat 
+                .chat(my-id=user.id)
                     .inner-body 
                         each chat in chats
                             div(class=(chat.infoUser.id == user.id) ? "inner-outgoing" : "inner-incoming")
@@ -17,29 +17,15 @@ block main
                                     .inner-name #{chat.infoUser.fullName}
                                 .inner-content
                                     | #{chat.content}
-                        //- .inner-outgoing
-                        //-     .inner-content
-                        //-         | Thế à? Ok em iu
-                        //- .inner-incoming
-                        //-     .inner-name Em Yêu
-                        //-     .inner-content
-                        //-         | Nhanh nha nhanh nha
-                        //- .inner-outgoing
-                        //-     .inner-content
-                        //-         | Ck đến rồi mà thấy ai ở nhà đâu e? Khóa cửa mà :(
-                        //- .inner-incoming
-                        //-     .inner-name Em Yêu
-                        //-     .inner-content
-                        //-         | Thì em bảo nhà em không ai ở nhà mà :))
-                        .inner-foot
-                            form(
-                                class="inner-form"
-                                action=""
+                    .inner-foot
+                        form(
+                            class="inner-form"
+                            action=""
+                        )
+                            input(
+                                type="text"
+                                placeholder="Nhập nội dung..."
+                                name="content"
                             )
-                                input(
-                                    type="text"
-                                    placeholder="Nhập nội dung..."
-                                    name="content"
-                                )  
-                                button
-                                    i.fa-solid.fa-paper-plane
+                            button
+                                i.fa-solid.fa-paper-plane
