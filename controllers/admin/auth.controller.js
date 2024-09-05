@@ -6,6 +6,7 @@ const systemConfig = require("../../config/system")
 module.exports.login = (req, res) => {
     if (req.cookies.token) {
         res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
+        return
     }
     res.render("admin/pages/auth/login.pug", {
         pageTitle: "Đăng nhập"

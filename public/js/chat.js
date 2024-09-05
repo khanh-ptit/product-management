@@ -17,7 +17,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const chatForm = document.querySelector("[my-id]")
     const myId = chatForm.getAttribute("my-id")
     console.log(myId)
-    
+
     const body = document.querySelector(".chat .inner-body")
     // console.log(body)
     const div = document.createElement("div")
@@ -34,6 +34,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
         <div class="inner-content">${data.content}</div>
     `
     body.appendChild(div)
+    body.scrollTop = body.scrollHeight
 })
 // End SERVER_RETURN_MESSAGE
 
@@ -47,6 +48,6 @@ function scrollToBottom() {
 scrollToBottom();
 
 // Example: Call scrollToBottom function whenever a new message is added
-const chatContainer = document.querySelector('.inner-body');
-const observer = new MutationObserver(scrollToBottom);
-observer.observe(chatContainer, { childList: true });
+// const chatContainer = document.querySelector('.inner-body');
+// const observer = new MutationObserver(scrollToBottom);
+// observer.observe(chatContainer, { childList: true });
