@@ -9,6 +9,14 @@ const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware")
 
 router.get("/general", controller.general)
 
-router.patch("/general", upload.single("logo"), uploadCloud.upload, controller.generalPatch)
+router.patch("/general", upload.fields([{
+        name: "logo",
+        maxCount: 1
+    }, // Chỉ upload 1 logo
+    {
+        name: "favicon",
+        maxCount: 1
+    } // Chỉ upload 1 favicon
+]), uploadCloud.upload, controller.generalPatch)
 
 module.exports = router

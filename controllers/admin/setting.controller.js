@@ -13,6 +13,7 @@ module.exports.general = async (req, res) => {
 
 // [PATCH] /settings/general
 module.exports.generalPatch = async (req, res) => {
+    // res.send("OK")
     console.log(req.body)
     const settingGeneral = await SettingGeneral.findOne({})
 

@@ -2,6 +2,7 @@ const mongooose = require("mongoose")
 
 const settingGeneralSchema = new mongooose.Schema({
     websiteName: String,
+    favicon: String,
     logo: String,
     phone: String,
     email: String,
