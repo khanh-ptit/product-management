@@ -60,18 +60,23 @@ scrollToBottom();
 const buttonIcon = document.querySelector(".button-icon")
 if (buttonIcon) {
     const tooltip = document.querySelector(".tooltip")
-    Popper.createPopper(buttonIcon, tooltip)
+    
+    // Chỉ khởi tạo Popper sau khi đảm bảo rằng tooltip đã có trong DOM
+    document.addEventListener("DOMContentLoaded", function () {
+        Popper.createPopper(buttonIcon, tooltip)
+    })
 
-    buttonIcon.onclick = () => {
+    // Toggle hiển thị/ẩn tooltip khi nhấn vào buttonIcon
+    buttonIcon.addEventListener("click", () => {
         tooltip.classList.toggle("shown")
-    }
+    })
 }
+
 // ENd show pop-up
 const emojiPicker = document.querySelector("emoji-picker")
 if (emojiPicker) {
     const input = document.querySelector(".inner-form input")
-    console.log(input)
-
+    // console.log(input)
     emojiPicker.addEventListener("emoji-click", (e) => {
         const icon = e.detail.unicode
         console.log(icon)
