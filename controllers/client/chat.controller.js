@@ -26,20 +26,22 @@ module.exports.index = async (req, res) => {
                 content: content
             })
         })
-        
+
         socket.on("CLIENT_SEND_TYPING", (type) => {
-            console.log("User", fullName, "is typing", type);
+            // console.log("User", fullName, "is typing", type);
             socket.broadcast.emit("SERVER_RETURN_TYPING", {
                 userId: userId,
                 fullName: fullName,
                 type: type
-            })
+            }) 
         })
     })
     // End SOCKET io
 
     // Lấy data in ra giao diện
-    const chats = await Chat.find({deleted: false})
+    const chats = await Chat.find({
+        deleted: false
+    })
     // console.log(chats)
     for (const chat of chats) {
         const userId = chat.user_id

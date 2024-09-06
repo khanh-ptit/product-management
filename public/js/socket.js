@@ -1,3 +1,1 @@
-var socket = io({
-    transports: ['websocket', 'polling']
-});
+var socket = io();
