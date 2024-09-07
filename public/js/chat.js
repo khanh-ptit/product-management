@@ -1,4 +1,5 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
+// import Viewer from 'viewerjs'
 
 var timeOut
 
@@ -84,6 +85,17 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     // body.appendChild(div)
     body.insertBefore(div, boxTyping)
     body.scrollTop = body.scrollHeight
+
+    // Khởi tạo lại Viewer.js cho các ảnh mới thêm vào
+    const newImages = div.querySelectorAll('.inner-image img')  // Chỉ khởi tạo cho các ảnh mới
+    if (newImages.length > 0) {
+        new Viewer(div.querySelector('.inner-image'), {
+            inline: false,  // False để hiện pop-up
+            viewed() {
+                this.viewer.zoomTo(1);  // Zoom mặc định
+            }
+        });
+    }
 })
 // End SERVER_RETURN_MESSAGE
 const chatBody = document.querySelector('.inner-body');
@@ -166,3 +178,28 @@ if (elementListTyping) {
     });
 }
 // END SERVER_RETURN_TYPING
+
+// const viewer = new Viewer(document.querySelector(".inner-image", {
+//     inline: true,
+//     viewed() {
+//         viewer.zoomTo(1)
+//     }
+// }))
+
+// const gallery = new Viewer(document.querySelector(".inner-image"))
+// console.log("OK")
+
+document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(".inner-image");
+
+    images.forEach(image => {
+        new Viewer(image, {
+            inline: false, // Inline false để mở pop-up preview ảnh
+            viewed() {
+                this.viewer.zoomTo(1); // Tự động zoom ảnh khi mở
+            }
+        });
+    });
+
+    console.log("Image preview initialized");
+});

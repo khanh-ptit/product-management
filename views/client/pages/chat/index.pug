@@ -21,8 +21,10 @@ block main
                                 if (chat.images)
                                     .inner-image
                                         each image in chat.images   
-                                            img(src=image)
+                                            img(src=image, alt="Chat Image")
                         div(class="inner-list-typing")
+                    .inner-preview-images
+                        div(class="custom-file-container" data-upload-id="upload-image")
                     .inner-foot
                         form(
                             class="inner-form"
@@ -33,7 +35,11 @@ block main
                                 placeholder="Nhập nội dung..."
                                 name="content"
                             )
-                            div(class="custom-file-container" data-upload-id="upload-image")
+                            label(
+                                class="btn btn-light mx-2 mb-0"
+                                for="file-upload-with-preview-upload-image"
+                            ) 
+                                i.fa-regular.fa-image
                             span(class="button-icon btn btn-light mx-2")
                                 i.fa-sharp-doutone.fa-solid.fa-face-smile
                             div(class="tooltip" role="tooltip")
