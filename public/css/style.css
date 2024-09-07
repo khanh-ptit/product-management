@@ -307,6 +307,25 @@
     color: white;
 }
 
+.chat .inner-body .inner-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    background: #efefef;
+    padding: 10px;
+    margin: 0 5px 5px 0;
+    border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-image {
+    margin-left: auto;
+    text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-image img{
+    margin: 0 0 5px 5px;
+}
+
 /* Sender's Name */
 .inner-name {
     font-weight: bold;

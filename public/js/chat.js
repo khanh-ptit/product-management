@@ -12,15 +12,35 @@ const showTyping = () => {
     }, 3000);
 }
 
+var upload
+
+// Fileuploadwithpreview
+document.addEventListener('DOMContentLoaded', function () {
+    upload = new FileUploadWithPreview.FileUploadWithPreview('upload-image', {
+        multiple: true,
+        maxFileCount: 6
+    });
+});
+// End Fileuploadwithpreview
+
 // CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form")
 if (formSendData) {
     formSendData.addEventListener("submit", (e) => {
         e.preventDefault()
         const content = (e.target.elements.content.value)
-        if (content) {
-            socket.emit("CLIENT_SEND_MESSAGE", content)
+        const images = upload.cachedFileArray || []
+        if (content || images.length > 0) {
+            // Gửi content hoặc ảnh lên server
+            console.log(images)
+
+            socket.emit("CLIENT_SEND_MESSAGE", {
+                content: content,
+                images: images
+            })
+            upload.resetPreviewPanel()
             e.target.elements.content.value = ""
+            socket.emit("CLIENT_SEND_TYPING", "hidden")
         }
     })
 }
@@ -37,6 +57,18 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     // console.log(body)
     const div = document.createElement("div")
     let htmlFullName = ""
+    let htmlContent = ""
+    let htmlImages = ""
+    if (data.content) {
+        htmlContent = `<div class="inner-content">${data.content}</div>`
+    }
+    if (data.images.length > 0 && data.images) {
+        htmlImages += `<div class="inner-image">`
+        for (const image of data.images) {
+            htmlImages += `<img src=${image}>`
+        }
+        htmlImages += `</div>`
+    }
     if (myId == data.userId) {
         div.classList.add("inner-outgoing")
     } else {
@@ -46,7 +78,8 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     }
     div.innerHTML = `
         ${htmlFullName}
-        <div class="inner-content">${data.content}</div>
+        ${htmlContent}
+        ${htmlImages}
     `
     // body.appendChild(div)
     body.insertBefore(div, boxTyping)
