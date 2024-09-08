@@ -87,10 +87,10 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     body.scrollTop = body.scrollHeight
 
     // Khởi tạo lại Viewer.js cho các ảnh mới thêm vào
-    const newImages = div.querySelectorAll('.inner-image img')  // Chỉ khởi tạo cho các ảnh mới
-    if (newImages.length > 0) {
-        new Viewer(div.querySelector('.inner-image'), {
-            inline: false,  // False để hiện pop-up
+    const newImagesContainer = div.querySelector('.inner-image')  // Chỉ khởi tạo cho div vừa thêm
+    if (newImagesContainer) {
+        new Viewer(newImagesContainer, {
+            inline: false,  // False để mở pop-up khi nhấp vào ảnh
             viewed() {
                 this.viewer.zoomTo(1);  // Zoom mặc định
             }
@@ -190,7 +190,7 @@ if (elementListTyping) {
 // console.log("OK")
 
 document.addEventListener("DOMContentLoaded", () => {
-    const images = document.querySelectorAll(".inner-image");
+    const images = document.querySelectorAll(".chat .inner-body");
 
     images.forEach(image => {
         new Viewer(image, {
