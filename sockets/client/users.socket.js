@@ -5,7 +5,6 @@ module.exports = async (res) => {
     _io.once("connection", (socket) => {
         socket.on("CLIENT_ADD_FRIEND", async (userB_id) => {
             console.log(userA_id, userB_id)
-
             // Thêm id của B vào request của A
             const existUserBInA = await User.findOne({ // Check xem request của A có B hay chưa
                 _id: userA_id,
@@ -37,6 +36,26 @@ module.exports = async (res) => {
             }
 
             // await User.updateOne()
+        })
+
+        socket.on("CLIENT_CANCEL_FRIEND", async (userB_id) => {
+            console.log(userB_id)
+
+            // Xóa id của B ra khỏi request của A
+            const userA = await User.findOne({
+                _id: userA_id
+            })
+            userA.requestFriends = userA.requestFriends.filter(item => item != userB_id)
+            // console.log(userA.requestFriends)
+            await userA.save()
+            // console.log(newArr)
+            // Xóa id của A ra khỏi accept của B
+            const userB = await User.findOne({
+                _id: userB_id
+            })
+            userB.acceptFriends = userB.acceptFriends.filter(item => item != userA_id)
+            // console.log(userB.acceptFriends)
+            await userB.save()
         })
     })
 }
