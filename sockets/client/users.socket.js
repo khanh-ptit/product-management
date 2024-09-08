@@ -57,5 +57,33 @@ module.exports = async (res) => {
             // console.log(userB.acceptFriends)
             await userB.save()
         })
+
+        socket.on("CLIENT_REFUSE_REQUEST", async (userB_id) => {
+            // Xóa id của Khánh(B) ra khỏi accept của Minh(A)
+            // const userA = await User.findOne({
+            //     _id: userA_id
+            // })
+            // const userB = await User.findOne({
+            //     _id: userB_id
+            // })
+            // console.log(userA.acceptFriends, userB.requestFriends)
+            await User.updateOne({
+                _id: userA_id
+            }, {
+                $pull: {
+                    acceptFriends: userB_id
+                }
+            });
+
+            // Xóa id của Minh(A) ra khỏi request của Khánh(B)
+            await User.updateOne({
+                _id: userB_id
+            }, {
+                $pull: {
+                    requestFriends: userA_id
+                }
+            });
+
+        })
     })
 }

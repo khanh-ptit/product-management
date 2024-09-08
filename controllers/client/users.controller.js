@@ -37,10 +37,10 @@ module.exports.notFriend = async (req, res) => {
     })
 }
 
-// [GET] /user/request
+// [GET] /users/request
 module.exports.request = async (req, res) => {
     usersSocket(res)
-    
+
     const myUserId = res.locals.user.id
     const myUser = await User.findOne({
         _id: myUserId
@@ -62,6 +62,28 @@ module.exports.request = async (req, res) => {
     }).select("fullName avatar")
     res.render("client/pages/users/request.pug", {
         pageTitle: "Lời mời đã gửi",
+        users: users
+    })
+}
+
+// [GET] /users/accept
+module.exports.accept = async (req, res) => {
+    usersSocket(res)
+    const myUserId = res.locals.user.id
+    const myUser = await User.findOne({
+        _id: myUserId
+    })
+    const acceptFriendsArr = myUser.acceptFriends
+    // console.log(acceptFriendsArr)
+    const users = await User.find({
+        _id: {
+            $in: acceptFriendsArr
+        },
+        status: "active",
+        deleted: false
+    })
+    res.render("client/pages/users/accept.pug", {
+        pageTitle: "Lời mời kết bạn",
         users: users
     })
 }
