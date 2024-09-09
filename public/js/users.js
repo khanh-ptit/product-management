@@ -7,6 +7,16 @@ const refuseFriend = (button) => {
     })
 }
 
+const acceptFriend = (button) => {
+    button.addEventListener("click", () => {
+        const parentDiv = button.closest(".box-user")
+        parentDiv.classList.add("accepted")
+
+        const userId = button.getAttribute("btn-accept-friend")
+        socket.emit("CLIENT_ACCEPT_REQUEST", userId)
+    })
+}
+
 // Chức năng gửi yêu cầu
 const listBtnAddFriend = document.querySelectorAll("[btn-add-friend]")
 if (listBtnAddFriend.length > 0) {
@@ -52,13 +62,7 @@ if (listBtnRefuseFriend.length > 0) {
 const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
 if (listBtnAcceptFriend.length > 0) {
     listBtnAcceptFriend.forEach(button => {
-        button.addEventListener("click", () => {
-            const parentDiv = button.closest(".box-user")
-            parentDiv.classList.add("accepted")
-
-            const userId = button.getAttribute("btn-accept-friend")
-            socket.emit("CLIENT_ACCEPT_REQUEST", userId)
-        })
+        acceptFriend(button)
     })
 }
 
@@ -112,6 +116,13 @@ socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
             refuseFriend(btnRefuseFriend)
         }
         // 1. End xóa lời mời kết bạn
+
+        // 2. Chấp nhận lời mời kết bạn
+        const btnAcceptFriend = div.querySelector("[btn-accept-friend]")
+        if (btnAcceptFriend) {
+            acceptFriend(btnAcceptFriend)
+        }
+        // 2. End chấp nhận lời mời kết bạn
     }
 })
 // End "SERVER_RETURN_INFO_ACCEPT_FRIEND"
