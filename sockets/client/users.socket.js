@@ -65,6 +65,17 @@ module.exports = async (res) => {
             userB.acceptFriends = userB.acceptFriends.filter(item => item != userA_id)
             // console.log(userB.acceptFriends)
             await userB.save()
+
+            // Khi A hủy lời mời, cập nhật số lượng bên B
+            const infoUserB = await User.findOne({
+                _id: userB_id
+            })
+            const acceptFriendsLength = infoUserB.acceptFriends.length
+
+            socket.broadcast.emit("SERVER_RETURN_ACCEPT_FRIEND_LENGTH", {
+                userB_id: userB_id,
+                acceptFriendsLength: acceptFriendsLength
+            })
         })
 
         socket.on("CLIENT_REFUSE_REQUEST", async (userA_id) => {
@@ -108,7 +119,7 @@ module.exports = async (res) => {
                             user_id: userB_id
                         }
                     }
-                })       
+                })
             }
             // Xóa id của B ra khỏi request của A
             await User.updateOne({
@@ -118,7 +129,7 @@ module.exports = async (res) => {
                     requestFriends: userB_id
                 }
             })
-            
+
             // Thêm object{id của A, roomchat} vào friendlist của B
             const existAInB = await User.findOne({
                 _id: userB_id,
