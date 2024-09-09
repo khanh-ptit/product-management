@@ -44,3 +44,16 @@ if (listBtnRefuseFriend.length > 0) {
     })
 }
 // End chức năng từ chối kết bạn
+
+const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]")
+if (listBtnAcceptFriend.length > 0) {
+    listBtnAcceptFriend.forEach(button => {
+        button.addEventListener("click", () => {
+            const parentDiv = button.closest(".box-user")
+            parentDiv.classList.add("accepted")
+
+            const userId = button.getAttribute("btn-accept-friend")
+            socket.emit("CLIENT_ACCEPT_REQUEST", userId)
+        })
+    })
+}

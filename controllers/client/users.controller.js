@@ -10,6 +10,12 @@ module.exports.notFriend = async (req, res) => {
     })
     const requestFriendsArr = myUser.requestFriends
     const acceptFriendsArr = myUser.acceptFriends
+    const friendList = myUser.friendList
+    const friendListArr = []
+    friendList.forEach(friend => {
+        friendListArr.push(friend.user_id)
+    })
+    // console.log(friendListArr)
     const users = await User.find({
         $and: [{
                 _id: {
@@ -24,6 +30,11 @@ module.exports.notFriend = async (req, res) => {
             {
                 _id: {
                     $nin: acceptFriendsArr
+                }
+            },
+            {
+                _id: {
+                    $nin: friendListArr
                 }
             }
         ],
