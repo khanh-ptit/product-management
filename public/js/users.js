@@ -23,7 +23,7 @@ if (listBtnAddFriend.length > 0) {
     listBtnAddFriend.forEach(button => {
         button.addEventListener("click", () => {
             const userId = button.getAttribute("btn-add-friend")
-            console.log(userId)
+            // console.log(userId)
             const div = button.closest(".box-user")
             div.classList.add("add")
 
@@ -39,7 +39,7 @@ if (listBtnCancelFriend.length > 0) {
     listBtnCancelFriend.forEach(button => {
         button.addEventListener("click", () => {
             const userId = button.getAttribute("btn-cancel-friend")
-            console.log(userId)
+            // console.log(userId)
             const parentDiv = button.closest(".box-user")
             parentDiv.classList.remove("add")
 
@@ -81,14 +81,13 @@ socket.on("SERVER_RETURN_ACCEPT_FRIEND_LENGTH", (data) => {
 // "SERVER_RETURN_INFO_ACCEPT_FRIEND"
 socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
     const dataUsersAccept = document.querySelector("[data-users-accept]")
-    console.log(dataUsersAccept)
     const badgeUsersAccept = document.querySelector("[badge-users-accept]")
     const userId = badgeUsersAccept.getAttribute("badge-users-accept")
     if (userId == data.userB_id) {
         // Vẽ user ra giao diện
         const div = document.createElement("div")
         div.classList.add("col-6")
-
+        div.setAttribute("user-id", data.infoUserA._id)
         let html = `
             <div class="box-user">
                 <div class="inner-avatar">
@@ -126,3 +125,19 @@ socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
     }
 })
 // End "SERVER_RETURN_INFO_ACCEPT_FRIEND"
+
+// "SERVER_RETURN_CANCEL_FRIEND_ID"
+socket.on("SERVER_RETURN_CANCEL_FRIEND_ID", (data) => {
+    const badgeUsersAccept = document.querySelector("[badge-users-accept]")
+    const userId = badgeUsersAccept.getAttribute("badge-users-accept")
+    const dataUsersAccept = document.querySelector("[data-users-accept]")
+    // console.log(dataUsersAccept)
+
+    if (userId == data.userB_id) {
+        const boxUserDelete = dataUsersAccept.querySelector(`[user-id="${data.userA_id}"]`)
+        if (boxUserDelete) {
+            dataUsersAccept.removeChild(boxUserDelete)
+        }
+    }
+})
+// End "SERVER_RETURN_CANCEL_FRIEND_ID"

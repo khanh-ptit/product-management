@@ -4,7 +4,7 @@ module.exports = async (res) => {
     const userA_id = res.locals.user.id
     _io.once("connection", (socket) => {
         socket.on("CLIENT_ADD_FRIEND", async (userB_id) => {
-            console.log(userA_id, userB_id)
+            // console.log(userA_id, userB_id)
             // Thêm id của B vào request của A
             const existUserBInA = await User.findOne({ // Check xem request của A có B hay chưa
                 _id: userA_id,
@@ -57,8 +57,7 @@ module.exports = async (res) => {
         })
 
         socket.on("CLIENT_CANCEL_FRIEND", async (userB_id) => {
-            console.log(userB_id)
-
+            // console.log(userB_id)
             // Xóa id của B ra khỏi request của A
             const userA = await User.findOne({
                 _id: userA_id
@@ -85,12 +84,18 @@ module.exports = async (res) => {
                 userB_id: userB_id,
                 acceptFriendsLength: acceptFriendsLength
             })
+
+            // Khi A hủy lời mời, gửi ID của A cho B để còn xóa data
+            socket.broadcast.emit("SERVER_RETURN_CANCEL_FRIEND_ID", {
+                userA_id: userA_id,
+                userB_id: userB_id
+            })
         })
 
         socket.on("CLIENT_REFUSE_REQUEST", async (userA_id) => {
             // Xóa id của Khánh(A) ra khỏi accept của Minh(B)
             const userB_id = res.locals.user.id
-            console.log(userB_id)
+            // console.log(userB_id)
             await User.updateOne({
                 _id: userB_id
             }, {
