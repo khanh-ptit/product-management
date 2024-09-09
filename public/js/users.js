@@ -57,3 +57,15 @@ if (listBtnAcceptFriend.length > 0) {
         })
     })
 }
+
+// "SERVER_RETURN_ACCEPT_FRIEND_LENGTH"
+socket.on("SERVER_RETURN_ACCEPT_FRIEND_LENGTH", (data) => {
+    // console.log(data)
+    const badgeUserAccept = document.querySelector("[badge-users-accept]")
+    // console.log(badgeUserAccept)
+    const userId = badgeUserAccept.getAttribute("badge-users-accept")
+    if (userId == data.userB_id) {
+        badgeUserAccept.innerHTML = data.acceptFriendsLength
+    }
+})
+// End "SERVER_RETURN_ACCEPT_FRIEND_LENGTH"
