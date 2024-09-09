@@ -46,7 +46,8 @@ module.exports = async (res) => {
                 userB_id: userB_id
             })
 
-            // Lấy thông tin của A trả về cho giao diện cho B
+            // Lấy thông tin của A trả về cho giao diện accept cho B,
+            // Khi A gửi lời mời cho B, danh sách người dùng của B phải xóa A
             const infoUserA = await User.findOne({
                 _id: userA_id
             }).select("fullName avatar")
