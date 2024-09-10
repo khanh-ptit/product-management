@@ -553,3 +553,19 @@
 .box-user.accepted [btn-accepted-friend] {
     display: inline-block;
 }
+
+.box-user [btn-is-friend] {
+    display: none;
+}
+
+.box-user.is-friend [btn-add-friend] {
+    display: none;
+}
+
+.box-user.is-friend [btn-cancel-friend] {
+    display: none;
+}
+
+.box-user.is-friend [btn-is-friend] {
+    display: inline-block;
+}

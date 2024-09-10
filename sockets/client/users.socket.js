@@ -87,9 +87,13 @@ module.exports = async (res) => {
             })
 
             // Khi A hủy lời mời, gửi ID của A cho B để còn xóa data
+            const infoUserA = await User.findOne({
+                _id: userA_id
+            })
             socket.broadcast.emit("SERVER_RETURN_CANCEL_FRIEND_ID", {
                 userA_id: userA_id,
-                userB_id: userB_id
+                userB_id: userB_id,
+                infoUserA: infoUserA
             })
         })
 
@@ -113,6 +117,11 @@ module.exports = async (res) => {
                     requestFriends: userB_id
                 }
             });
+
+            socket.broadcast.emit("SERVER_RETURN_ID_A_AND_B_REFUSE_REQUEST", {
+                userA_id: userA_id,
+                userB_id: userB_id
+            })
 
         })
 
@@ -168,6 +177,11 @@ module.exports = async (res) => {
                 $pull: {
                     acceptFriends: userA_id
                 }
+            })
+
+            socket.broadcast.emit("SERVER_RETURN_ID_A_AND_B_ACCEPT_REQUEST", {
+                userA_id: userA_id,
+                userB_id: userB_id
             })
         })
     })

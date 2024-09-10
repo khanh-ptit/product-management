@@ -29,6 +29,11 @@ block main
                                     class="btn btn-sm btn-secondary mr-1"
                                     btn-cancel-friend=item.id
                                 ) Hủy
+                                button(
+                                    class="btn btn-success btn-sm"
+                                    disabled
+                                    btn-is-friend=item.id
+                                ) Bạn bè
 
 block script 
     script(src="/js/users.js")
