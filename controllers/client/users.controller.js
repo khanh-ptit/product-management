@@ -98,3 +98,28 @@ module.exports.accept = async (req, res) => {
         users: users
     })
 }
+
+// [GET] /users/friend
+module.exports.friend = async (req, res) => {
+    usersSocket(res)
+    const myUserId = res.locals.user.id
+    const myUser = await User.findOne({
+        _id: myUserId
+    })
+    const friendListIdArr = myUser.friendList.map(item => item.user_id)
+    // console.log(friendListIdArr)
+
+    const users = await User.find({
+        _id: {
+            $in: friendListIdArr
+        }, 
+        status: "active",
+        deleted: false
+    })
+    // console.log(users)
+
+    res.render("client/pages/users/friend.pug", {
+        pageTitle: "Danh sách bạn bè",
+        users: users
+    })
+}

@@ -77,6 +77,20 @@ if (listBtnAcceptFriend.length > 0) {
 // End chức năng đồng ý kết bạn
 
 
+// Chức năng xóa kết bạn khi đã là bạn bè
+const listBtnRemoveFriend = document.querySelectorAll('[btn-remove-friend]')
+if (listBtnRemoveFriend.length > 0) {
+    listBtnRemoveFriend.forEach(button => {
+        button.addEventListener("click", () => {
+            const userId = button.getAttribute("btn-remove-friend")
+            console.log(userId)
+            socket.emit("CLIENT_REMOVE_FRIEND", userId)
+        })
+    })
+}
+// End chức năng xóa kết bạn khi đã là bạn bè
+
+
 // "SERVER_RETURN_ACCEPT_FRIEND_LENGTH"
 socket.on("SERVER_RETURN_ACCEPT_FRIEND_LENGTH", (data) => {
     // console.log(data)
@@ -284,3 +298,21 @@ socket.on("SERVER_RETURN_ID_A_AND_B_ACCEPT_REQUEST", (data) => {
     }
 })
 // End "SERVER_RETURN_ID_A_AND_B_ACCEPT_REQUEST",
+
+// "SERVER_RETURN_ID_A_AND_B_REMOVE_FRIEND"
+socket.on("SERVER_RETURN_ID_A_AND_B_REMOVE_FRIEND", (data) => {
+    // Hiển thị nút not Bạn Bè
+    const dataUsersFriend = document.querySelector("[data-users-friend]")
+    if (dataUsersFriend) {
+        const userId = dataUsersFriend.getAttribute("data-users-friend")
+        if (userId == data.userA_id) {
+            const boxUserChange = document.querySelector(`[user-id="${data.userB_id}"]`)
+            const boxUserChangeChild = boxUserChange.querySelector(".box-user")
+            boxUserChangeChild.classList.add("remove-friend")
+        } else if (userId == data.userB_id) {
+            const boxUserChange = document.querySelector(`[user-id="${data.userA_id}"]`)
+            const boxUserChangeChild = boxUserChange.querySelector(".box-user")
+            boxUserChangeChild.classList.add("remove-friend")
+        }
+    }
+})

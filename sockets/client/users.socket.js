@@ -184,5 +184,40 @@ module.exports = async (res) => {
                 userB_id: userB_id
             })
         })
+
+        // A xóa B khi đang là bạn bè
+        socket.on("CLIENT_REMOVE_FRIEND", async (userB_id) => {
+            const userInfoA = await User.findOne({
+                _id: userA_id,
+                status: "active",
+                deleted: false
+            }).select("friendList")
+            let friendListOfA = userInfoA.friendList
+            friendListOfA = friendListOfA.filter(item => item.user_id != userB_id)
+            userInfoA.friendList = friendListOfA
+            // console.log(userInfoA)
+            await userInfoA.save()
+
+            const userInfoB = await User.findOne({
+                _id: userB_id,
+                status: "active",
+                deleted: false
+            }).select("friendList")
+            let friendListOfB = userInfoB.friendList
+            friendListOfB = friendListOfB.filter(item => item.user_id != userA_id)
+            userInfoB.friendList = friendListOfB
+            // console.log(userInfoB)
+            await userInfoB.save()
+
+            // Cách dùng pull
+            // await User.updateOne(
+            //     { _id: userA_id, status: "active", deleted: false },
+            //     { $pull: { friendList: { user_id: userB_id } } }
+            // );
+            _io.emit("SERVER_RETURN_ID_A_AND_B_REMOVE_FRIEND", {
+                userA_id: userA_id,
+                userB_id: userB_id
+            })
+        })
     })
 }

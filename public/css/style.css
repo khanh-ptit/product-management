@@ -569,3 +569,19 @@
 .box-user.is-friend [btn-is-friend] {
     display: inline-block;
 }
+
+.box-user [btn-not-friend] {
+    display: none;
+}
+
+.box-user.remove-friend [btn-inbox] {
+    display: none;
+}
+
+.box-user.remove-friend [btn-remove-friend] {
+    display: none;
+}
+
+.box-user.remove-friend [btn-not-friend] {
+    display: inline-block;
+}
