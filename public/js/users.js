@@ -224,17 +224,30 @@ socket.on("SERVER_RETURN_CANCEL_FRIEND_ID", (data) => {
 socket.on("SERVER_RETURN_ID_A_AND_B_REFUSE_REQUEST", (data) => {
     const dataUsersNotFriend = document.querySelector("[data-users-not-friend]")
     if (dataUsersNotFriend) {
-        console.log(dataUsersNotFriend)
+        // console.log(dataUsersNotFriend)
         const userId = dataUsersNotFriend.getAttribute("data-users-not-friend")
         if (userId == data.userA_id) {
             const boxUser = dataUsersNotFriend.querySelector(`[user-id="${data.userB_id}"]`)
             if (boxUser) {
-                console.log(boxUser)
+                // console.log(boxUser)
                 const childBoxUser = boxUser.querySelector(".box-user")
                 if (childBoxUser) {
                     childBoxUser.classList.remove("add")
                 }
-
+            }
+        }
+    }
+    const dataUsersRequest = document.querySelector("[data-users-request]")
+    if (dataUsersRequest) {
+        const userId = dataUsersRequest.getAttribute("data-users-request")
+        if (userId == data.userA_id) {
+            const boxUser = dataUsersRequest.querySelector(`[user-id="${data.userB_id}"]`)
+            if (boxUser) {
+                // console.log(boxUser)
+                const childBoxUser = boxUser.querySelector(".box-user")
+                if (childBoxUser) {
+                    childBoxUser.classList.remove("add")
+                }
             }
         }
     }
@@ -246,14 +259,27 @@ socket.on("SERVER_RETURN_ID_A_AND_B_REFUSE_REQUEST", (data) => {
 socket.on("SERVER_RETURN_ID_A_AND_B_ACCEPT_REQUEST", (data) => {
     const dataUsersNotFriend = document.querySelector("[data-users-not-friend]")
     if (dataUsersNotFriend) {
-        console.log(dataUsersNotFriend)
+        // console.log(dataUsersNotFriend)
         const userId = dataUsersNotFriend.getAttribute("data-users-not-friend")
         if (userId == data.userA_id) {
             const boxUserChange = dataUsersNotFriend.querySelector(`[user-id="${data.userB_id}"]`)
             const boxUserChangeChild = boxUserChange.querySelector(".box-user")
             boxUserChangeChild.classList.remove("add")
             boxUserChangeChild.classList.add("is-friend")
-            console.log(boxUserChange)
+            // console.log(boxUserChange)
+        }
+    }
+
+    const dataUsersRequest = document.querySelector("[data-users-request]")
+    if (dataUsersRequest) {
+        // console.log(dataUsersRequest)
+        const userId = dataUsersRequest.getAttribute("data-users-request")
+        if (userId == data.userA_id) {
+            const boxUserChange = dataUsersRequest.querySelector(`[user-id="${data.userB_id}"]`)
+            const boxUserChangeChild = boxUserChange.querySelector(".box-user")
+            boxUserChangeChild.classList.remove("add")
+            boxUserChangeChild.classList.add("is-friend")
+            // console.log(boxUserChange)
         }
     }
 })

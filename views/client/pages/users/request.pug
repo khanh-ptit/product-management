@@ -8,9 +8,9 @@ block main
         
         +box-head("Lời mời đã gửi")
 
-        .row 
+        .row(data-users-request=user.id)
             each item in users
-                .col-6 
+                .col-6(user-id=item.id)
                     div(class="box-user add")
                         div(class="inner-avatar")
                             img(
@@ -28,6 +28,11 @@ block main
                                     class="btn btn-sm btn-secondary mr-1"
                                     btn-cancel-friend=item.id
                                 ) Hủy
+                                button(
+                                    class="btn btn-success btn-sm"
+                                    disabled
+                                    btn-is-friend=item.id
+                                ) Bạn bè
 
 block script 
     script(src="/js/users.js")
