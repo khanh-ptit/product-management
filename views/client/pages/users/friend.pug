@@ -34,6 +34,11 @@ block main
                                     disabled
                                     btn-not-friend=item.id
                                 ) Not Bạn Bè
+                        div(
+                            class="inner-status"
+                            status=(item.statusOnline ? item.statusOnline : "offline")
+                        ) 
+                            i.fa-solid.fa-circle
 
 block script 
     script(src="/js/users.js")

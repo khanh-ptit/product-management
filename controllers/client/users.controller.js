@@ -115,7 +115,7 @@ module.exports.friend = async (req, res) => {
         }, 
         status: "active",
         deleted: false
-    })
+    }).select("id avatar fullName statusOnline")
     // console.log(users)
 
     res.render("client/pages/users/friend.pug", {

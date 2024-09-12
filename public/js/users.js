@@ -316,3 +316,26 @@ socket.on("SERVER_RETURN_ID_A_AND_B_REMOVE_FRIEND", (data) => {
         }
     }
 })
+
+// "SERVER_RETURN_LOGIN_SUCCESSFULLY"
+socket.on("SERVER_RETURN_LOGIN_SUCCESSFULLY", (data) => {
+    const dataUsersFriend = document.querySelector("[data-users-friend]")
+    if (dataUsersFriend) {
+        const boxUserChange = dataUsersFriend.querySelector(`[user-id="${data.user_id}"]`)
+        const innerStatusUser = boxUserChange.querySelector(".inner-status")
+        innerStatusUser.setAttribute("status", "online")
+    }
+    // console.log(innerStatusUser)
+})
+// End "SERVER_RETURN_LOGIN_SUCCESSFULLY"
+
+// "SERVER_RETURN_LOGOUT_SUCCESSFULLY"
+socket.on("SERVER_RETURN_LOGOUT_SUCCESSFULLY", (data) => {
+    const dataUsersFriend = document.querySelector("[data-users-friend]")
+    if (dataUsersFriend) {
+        const boxUserChange = dataUsersFriend.querySelector(`[user-id="${data.user_id}"]`)
+        const innerStatusUser = boxUserChange.querySelector(".inner-status")
+        innerStatusUser.setAttribute("status", "offline")
+    }
+})
+// End "SERVER_RETURN_LOGOUT_SUCCESSFULLY"

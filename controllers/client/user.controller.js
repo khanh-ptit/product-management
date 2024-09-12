@@ -62,7 +62,17 @@ module.exports.loginPost = async (req, res) => {
                 res.redirect("back")
                 return
             }
-            console.log("*")
+            // console.log("*")
+            await User.updateOne({
+                _id: user.id
+            }, {
+                statusOnline: "online"
+            })
+            _io.once("connection", (socket) => {
+                socket.broadcast.emit("SERVER_RETURN_LOGIN_SUCCESSFULLY", {
+                    user_id: user.id
+                })
+            })
             console.log(user.tokenUser)
             res.cookie("tokenUser", user.tokenUser)
             // res.cookie("user_id", user._id)
@@ -83,8 +93,18 @@ module.exports.loginPost = async (req, res) => {
     }
 }
 
-// [GET] user/login
+// [GET] user/logout
 module.exports.logout = async (req, res) => {
+    await User.updateOne({
+        _id: res.locals.user.id
+    }, {
+        statusOnline: "offline"
+    })
+    _io.once("connection", (socket) => {
+        socket.broadcast.emit("SERVER_RETURN_LOGOUT_SUCCESSFULLY", {
+            user_id: res.locals.user.id
+        })
+    })
     res.clearCookie("tokenUser")
     res.redirect("back")
 }
@@ -189,7 +209,7 @@ module.exports.resetPasswordPost = async (req, res) => {
 
 // [GET] /user/info
 module.exports.info = async (req, res) => {
-    
+
     res.render("client/pages/user/info.pug", {
         pageTitle: "Tài khoản"
     })

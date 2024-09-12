@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     phone: String,
     avatar: String,
+    statusOnline: String,
     friendList: [{
         user_id: String,
         room_chat_id: String
