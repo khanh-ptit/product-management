@@ -14,18 +14,19 @@ block main
                     class="btn btn-sm btn-success mr-1"
                 ) Tạo phòng chat
         
-        .row    
-            .col-6 
-                div(class="box-room")
-                    div(class="inner-avatar")
-                        img(
-                            src="https://robohash.org/66.249.68.67.png"
-                            alt="Phòng abc"
-                        )
-                    div(class="inner-info")
-                        div(class="inner-name") Phòng abc
-                        div(class="inner-butotns")
-                            a(
-                                href="#"
-                                class="btn btn-sm btn-primary mr-1"
-                            ) Nhắn tin
+        .row
+            each item in roomsChat    
+                .col-6 
+                    div(class="box-room")
+                        div(class="inner-avatar")
+                            img(
+                                src="https://robohash.org/66.249.68.67.png"
+                                alt=item.title
+                            )
+                        div(class="inner-info")
+                            div(class="inner-name") #{item.title}
+                            div(class="inner-butotns")
+                                a(
+                                    href=`/chat/${item.id}`
+                                    class="btn btn-sm btn-primary mr-1"
+                                ) Nhắn tin

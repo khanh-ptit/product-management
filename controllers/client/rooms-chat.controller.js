@@ -2,9 +2,15 @@ const RoomChat = require("../../models/room-chat.model")
 const User = require("../../models/user.model")
 
 // [GET] /rooms-chat
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
+    const roomsChat = await RoomChat.find({
+        typeRoom: "group",
+        "users.user_id": res.locals.user.id
+    })
+    // console.log(roomsChat)
     res.render("client/pages/rooms-chat/index.pug", {
-        pageTitle: "Danh sách phòng"
+        pageTitle: "Danh sách phòng",
+        roomsChat: roomsChat
     })
 }
 
@@ -23,7 +29,7 @@ module.exports.create = async (req, res) => {
         status: "active",
         deleted: false
     }).select("avatar fullName")
-    
+
     res.render("client/pages/rooms-chat/create.pug", {
         pageTitle: "Tạo phòng chat",
         users: users
@@ -34,7 +40,7 @@ module.exports.create = async (req, res) => {
 module.exports.createPost = async (req, res) => {
     const title = req.body.title
     const usersId = req.body.usersId
-    
+
     const roomChat = {
         title: title,
         typeRoom: "group",
