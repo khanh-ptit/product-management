@@ -107,6 +107,7 @@ module.exports.friend = async (req, res) => {
         _id: myUserId
     })
     const friendListIdArr = myUser.friendList.map(item => item.user_id)
+
     // console.log(friendListIdArr)
 
     const users = await User.find({
@@ -115,8 +116,17 @@ module.exports.friend = async (req, res) => {
         }, 
         status: "active",
         deleted: false
-    }).select("id avatar fullName statusOnline")
+    }).select("id avatar fullName statusOnline friendList")
     // console.log(users)
+
+    // Lặp qua các user trong friendList, 
+    // với điều kiện là id của user trong friendList 
+    // phải bằng đó phải bằng id của user
+    users.forEach(user => {
+        const infoUser = myUser.friendList.find(item => item.user_id == user.id)
+        // console.log(infoUser)
+        user.roomChatId = infoUser.room_chat_id
+    })
 
     res.render("client/pages/users/friend.pug", {
         pageTitle: "Danh sách bạn bè",

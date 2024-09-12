@@ -21,9 +21,9 @@ block main
                         div(class="inner-info")
                             div(class="inner-name") #{item.fullName} 
                             div(class="inner-buttons") 
-                                button(
+                                a(
                                     class="btn btn-sm btn-primary mr-1"
-                                    btn-inbox=item.id
+                                    href=`/chat/${item.roomChatId}`
                                 ) Nhắn tin
                                 button(
                                     class="btn btn-sm btn-secondary mr-1"

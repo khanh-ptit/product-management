@@ -1,4 +1,5 @@
 const User = require("../../models/user.model")
+const RoomChat = require("../../models/room-chat.model")
 
 module.exports = async (res) => {
     const userA_id = res.locals.user.id
@@ -129,18 +130,43 @@ module.exports = async (res) => {
         socket.on("CLIENT_ACCEPT_REQUEST", async (userA_id) => {
             const userB_id = res.locals.user.id
 
-            // Thêm object{id của B, roomchat} vào friendlist của A
             const existBInA = await User.findOne({
                 _id: userA_id,
                 "friendList.user_id": userB_id
             })
+            const existAInB = await User.findOne({
+                _id: userB_id,
+                "friendList.user_id": userA_id
+            })
+
+            // Tạo phòng chat cho A và B
+            let roomChat
+            if (!existAInB && !existBInA) {
+                console.log("*")
+                roomChat = new RoomChat({
+                    typeRoom: "friend",
+                    users: [{
+                        user_id: userA_id,
+                        role: "superAdmin"
+                    }, {
+                        user_id: userB_id,
+                        role: "superAdmin"
+                    }]
+                })
+            }
+            await roomChat.save()
+            // const newRoomChat = new 
+
+            // Thêm object{id của B, roomchat} vào friendlist của A
+
             if (!existBInA) {
                 await User.updateOne({
                     _id: userA_id
                 }, {
                     $push: {
                         friendList: {
-                            user_id: userB_id
+                            user_id: userB_id,
+                            room_chat_id: roomChat._id
                         }
                     }
                 })
@@ -155,17 +181,14 @@ module.exports = async (res) => {
             })
 
             // Thêm object{id của A, roomchat} vào friendlist của B
-            const existAInB = await User.findOne({
-                _id: userB_id,
-                "friendList.user_id": userA_id
-            })
             if (!existAInB) {
                 await User.updateOne({
                     _id: userB_id
                 }, {
                     $push: {
                         friendList: {
-                            user_id: userA_id
+                            user_id: userA_id,
+                            room_chat_id: roomChat._id
                         }
                     }
                 })
