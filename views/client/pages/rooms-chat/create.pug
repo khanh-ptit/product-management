@@ -1,0 +1,44 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3 
+        .row 
+            .col-12 
+                +box-head("Tạo phòng chat")
+    
+        .row  
+            .col-12 
+                form(
+                    action="/rooms-chat/create"
+                    method="POST"
+                )
+                    div(class="form-group")
+                        label(for="title") Tiêu đề
+                        input(
+                            type="text"
+                            class="form-control"
+                            name="title"
+                            id="title"
+                            required
+                        )
+                    div(class="form-group")
+                        label Thêm thành viên 
+                            each item in users
+                                div(class="form-check")
+                                    input(
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        value=item.id
+                                        id=item.id
+                                        name="usersId"
+                                    )
+                                    label(
+                                        class="form-check-label"
+                                        for=item.id
+                                    ) #{item.fullName}
+                    div(class="form-group")
+                        button(
+                            class="btn btn-primary"
+                            type="submit"
+                        ) Tạo mới
