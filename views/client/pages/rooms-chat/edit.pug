@@ -1,0 +1,46 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3 
+        //- div #{roomChat}
+        if (roomChat.superAdmin.user_id == user.id)
+            .row 
+                .col-12 
+                    +box-head("Chỉnh sửa phòng chat")
+            
+                .row
+                    .col-12 
+                        form(
+                            action=`/rooms-chat/edit/${roomChat.id}?_method=PATCH`
+                            method="POST"
+                        )
+                            div(class="form-group")
+                                label(for="title") Tiêu đề
+                                input(
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    value=roomChat.title
+                                    class="form-control"
+                                )
+                            div(class="form-group")
+                                label Thành viên
+                                each item in friends
+                                    div(class="form-check")
+                                        input(
+                                            type="checkbox"
+                                            id=item.id 
+                                            name="usersId"
+                                            value=item.id
+                                            class="form-check-input"
+                                            checked=(roomChat.users.some(user => user.user_id == item.id) ? true : false)
+                                        )
+                                        label(for=item.id) #{item.fullName}
+                            div(class="form-group")
+                                button(
+                                    class="btn btn-primary"
+                                    type="submit"
+                                ) Chỉnh sửa
+        else 
+            h2 Trang web không tồn tại

@@ -1,7 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
 
 block main 
+    +alert-success("5000")
+    
     .container.my-3 
         .row 
             .col-12 
@@ -13,20 +16,25 @@ block main
                     href="/rooms-chat/create"
                     class="btn btn-sm btn-success mr-1"
                 ) Tạo phòng chat
-        
+
         .row
             each item in roomsChat    
                 .col-6 
                     div(class="box-room")
                         div(class="inner-avatar")
                             img(
-                                src="https://robohash.org/66.249.68.67.png"
+                                src="https://img.freepik.com/free-vector/group-happy-smiling-people-looking-up-top-view-white-background-flat-vector-illustration_1284-78599.jpg"
                                 alt=item.title
                             )
                         div(class="inner-info")
                             div(class="inner-name") #{item.title}
-                            div(class="inner-butotns")
+                            div(class="inner-buttons")
                                 a(
                                     href=`/chat/${item.id}`
                                     class="btn btn-sm btn-primary mr-1"
                                 ) Nhắn tin
+                                if (item.superAdmin.user_id == user.id)
+                                    a(
+                                        href=`/rooms-chat/edit/${item.id}`
+                                        class="btn btn-sm btn-warning mr-1"
+                                    ) Chỉnh sửa
