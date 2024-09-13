@@ -630,3 +630,24 @@
     margin-bottom: 3px;
 } 
 /* End box-room */
+
+
+/* inner-head chat */
+.inner-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Tạo đường phân cách dưới */
+}
+
+.inner-head-details {
+    flex-grow: 1; /* Đẩy phần tử này sang trái */
+}
+
+.inner-head-actions {
+    display: flex;
+    gap: 10px; /* Khoảng cách giữa các nút hành động */
+}
+
+/* End inner-head chat */

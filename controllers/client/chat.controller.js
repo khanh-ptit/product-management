@@ -1,5 +1,6 @@
 const Chat = require("../../models/chat.model")
 const User = require("../../models/user.model")
+const RoomChat = require("../../models/room-chat.model")
 const chatSocket = require("../../sockets/client/chat.socket")
 
 // [GET] /chat/:roomChatId
@@ -23,9 +24,20 @@ module.exports.index = async (req, res) => {
         }).select("fullName")
         chat.infoUser = user
     }
-    // console.log(chats.infoUser)
+    
+    const roomChat = await RoomChat.findOne({
+        _id: roomChatId
+    })
+
+    const users = await User.find({
+        deleted: false,
+        status: "active"
+    }).select("fullName")
+
     res.render("client/pages/chat/index.pug", {
         pageTitle: "Chat",
-        chats: chats
+        chats: chats,
+        roomChat: roomChat,
+        users: users
     })
 }

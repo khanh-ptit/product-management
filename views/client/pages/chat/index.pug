@@ -13,6 +13,24 @@ block main
         .row 
             .col-12 
                 .chat(my-id=user.id)
+                    .inner-head
+                        .inner-head-details
+                            if (roomChat && roomChat.typeRoom == "group")
+                                h5.inner-head-title #{roomChat.title}  
+                            else 
+                                each member in roomChat.users
+                                    if (member.user_id != user.id)
+                                        each item in users
+                                            if item.id == member.user_id
+                                                h5.inner-head-title #{item.fullName}  
+
+                        .inner-head-actions
+                            button.btn.btn-sm.btn-light 
+                                i.fa-solid.fa-phone  
+                            button.btn.btn-sm.btn-light 
+                                i.fa-solid.fa-video 
+                            button.btn.btn-sm.btn-light 
+                                i.fa-solid.fa-ellipsis  
                     .inner-body 
                         each chat in chats
                             div(class=(chat.infoUser.id == user.id) ? "inner-outgoing" : "inner-incoming")
